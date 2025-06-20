@@ -1,4 +1,4 @@
-import calculators.simpleCalculator.SimpleCalculator;
+import calculators.advancedCalculator.AdvancedCalculator;
 
 public class MainApp {
 	public static void main(String args[]) {
@@ -14,6 +14,6 @@ public class MainApp {
 			//do nothing
 		}
 		
-		new SimpleCalculator();
+		new AdvancedCalculator();
 	}
 }
