@@ -24,7 +24,7 @@ public class ScientificCalculatorOperation {
 			else if(operator.equals("C")) return nCr(operand1, operand2);
 			else if(operator.equals("P")) return nPr(operand1, operand2);
 			else if(operator.equals("mod")) return modulus(operand1, operand2);
-			else if(operator.equals("%")) return modulus(operand1, operand2);
+			else if(operator.equals("%")) return percentage(operand1, operand2);
 
 
 			else return "";
@@ -68,16 +68,26 @@ public class ScientificCalculatorOperation {
 	/**
 	 * Simple operational methods													#******S*****#
 	**/
-	private String percentage(String operand) {
+	private String percentage(String operand1, String operand2) {
 		try {
-			double value = Double.parseDouble(operand);
-			double result = value / 100.0;
+			double value1 = Double.parseDouble(operand1);
+			double value2 = Double.parseDouble(operand2);
+			double result = value1 * (value2 / 100.0);
 			return String.valueOf(result);
 		} catch (NumberFormatException e) {
 			return "Error";
 		}
 	}
 
+	private String percentage(String operand1) {
+		try {
+			double value1 = Double.parseDouble(operand1);
+			double result = value1 / 100.0;
+			return String.valueOf(result);
+		} catch (NumberFormatException e) {
+			return "Error";
+		}
+	}
 
 	private String sum(String operand1, String operand2) throws Exception{
 		double a=Double.parseDouble(operand1);

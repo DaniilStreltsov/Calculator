@@ -186,6 +186,13 @@ public class ScientificCalculator extends UltimateCalculatorFrame{
 	        	jButtonOperator(evt);
 	        }
 	    });
+		jButtonOperator[7].getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).
+				put(KeyStroke.getKeyStroke(KeyEvent.VK_5,InputEvent.SHIFT_MASK), "PERCENT_pressed");
+		jButtonOperator[7].getActionMap().put("PERCENT_pressed", new AbstractAction() {
+			public void actionPerformed(ActionEvent evt) {
+				jButtonOperator(evt);
+			}
+		});
 		
 		//Complex Operator Buttons
 		for(int i=0; i<22; i++){	

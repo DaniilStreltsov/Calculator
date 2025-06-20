@@ -37,7 +37,7 @@ public class ScientificCalculatorOperationsExecutor {
 			    
 			    
 			    if(s.equals("+") || s.equals("-") || s.equals("x") || s.equals("/") || s.equals("^") ||	//when an operator is found
-		    		 s.equals("sqrt") || s.equals("(") || s.equals(")") || s.equals("P") || s.equals("C") || s.equals("mod") ||
+		    		 s.equals("sqrt") || s.equals("%") || s.equals("(") || s.equals(")") || s.equals("P") || s.equals("C") || s.equals("mod") ||
 		    		 s.equals("log") || s.equals("ln") || s.equals("fact") || s.equals("sin") || s.equals("sinh") || 
 		    		 s.equals("asin") || s.equals("cbrt") || s.equals("cos") || s.equals("cosh") || s.equals("acos") ||
 		    		 s.equals("cube") || s.equals("tan") || s.equals("tanh") || s.equals("atan") || s.equals("sqre")){ 
@@ -74,7 +74,7 @@ public class ScientificCalculatorOperationsExecutor {
 		            }
 		            else if(element[i].getString().equals(")")){
 		                while(operator.lastElement()!="("){
-		                	if(operator.lastElement().equals("+") || operator.lastElement().equals("-") ||
+		                	if(operator.lastElement().equals("+") || operator.lastElement().equals("%")|| operator.lastElement().equals("-") ||
 		                			operator.lastElement().equals("x") ||operator.lastElement().equals("/") ||
 		                			operator.lastElement().equals("P") ||operator.lastElement().equals("C") ||
 		                			operator.lastElement().equals("^") || operator.lastElement().equals("mod")){
