@@ -130,7 +130,7 @@ public class ScientificCalculator extends UltimateCalculatorFrame{
         });
 			
 		//Operator Buttons
-		for(int i=0; i<7; i++){
+		for(int i=0; i<8; i++){
 			jButtonOperator[i].addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent evt) {
 	            	jButtonOperator(evt);

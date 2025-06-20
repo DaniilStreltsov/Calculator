@@ -47,7 +47,7 @@ public class ScientificCalculatorGui extends JLabel{
 		//**
 		jButtonNumerical=new JButton[10];			//10 buttons(0-9)
 		jButtonPoint=new JButton();					//point(.)
-		jButtonOperator=new JButton[7];				//+, -, *, /, SQRT(), =
+		jButtonOperator=new JButton[8];				//+, -, *, /, SQRT(), =, %
 		jButtonComplexOperator=new JButton[22];		//trigonometric, logarithm, factorial
 		jButtonShift = new JButton();				//Inverter
 		jButtonMemory=new JButton[2];				//M, MS
@@ -80,7 +80,7 @@ public class ScientificCalculatorGui extends JLabel{
 		jButtonPoint.setFont(new Font("Vrinda", 0, 26));
 			
 		//Operator Buttons
-		for(int i=0; i<7; i++){
+		for(int i=0; i<8; i++){
 			jButtonOperator[i] = new JButton();
 			jButtonOperator[i].setSize(45, 40);
 			jButtonOperator[i].setFont(new Font("Calibri", 0, 17));
@@ -91,12 +91,14 @@ public class ScientificCalculatorGui extends JLabel{
 		jButtonOperator[1].setText("-"); jButtonOperator[1].setLocation(170, 280);
 		jButtonOperator[2].setText("x"); jButtonOperator[2].setLocation(170, 240);
 		jButtonOperator[3].setText("/"); jButtonOperator[3].setLocation(170, 200);
-		jButtonOperator[5].setText("="); jButtonOperator[5].setBounds(215, 280, 45, 80);
+		jButtonOperator[5].setText("="); jButtonOperator[5].setLocation(215, 320);
 			jButtonOperator[5].setFont(new Font("Arial", 0, 19));
 		jButtonOperator[4].setText("sqrt"); jButtonOperator[4].setLocation(215, 240);
 		jButtonOperator[6].setText("^"); jButtonOperator[6].setLocation(215, 200);
-		
-		
+		jButtonOperator[7].setText("%"); jButtonOperator[7].setLocation(215, 280	);
+
+
+
 		//Complex Operator Buttons
 		for(int i=0; i<22; i++){	
 			jButtonComplexOperator[i] = new JButton();
@@ -203,7 +205,7 @@ public class ScientificCalculatorGui extends JLabel{
 			add(jButtonNumerical[i]);
 		}
 		add(jButtonPoint);
-		for(int i=0; i<7; i++){
+		for(int i=0; i<8; i++){
 			add(jButtonOperator[i]);
 		}
 		for(int i=0; i<22; i++){
