@@ -7,7 +7,7 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenuItem;
 import javax.swing.UIManager;
 
-import calculators.advancedCalculator.AdvancedCalculator;
+import calculators.scientificCalculator.ScientificCalculator;
 import calculators.baseCalculator.BaseCalculator;
 import calculators.dateCalculator.DateCalculator;
 import calculators.equationCalculator.EquationCalculator;
@@ -100,8 +100,8 @@ public class UltimateCalculatorFrame{
   	private void jCBItemModeActionPerformed(ActionEvent evt){
   		if(evt.getActionCommand()=="Simple"){
   			new SimpleCalculator();
-  		}else if(evt.getActionCommand()=="Advanced"){
-  			new AdvancedCalculator();
+  		}else if(evt.getActionCommand()=="Scientific"){
+  			new ScientificCalculator();
   		}else if(evt.getActionCommand()=="Base"){
   			new BaseCalculator();
   		}else if(evt.getActionCommand()=="Equation"){

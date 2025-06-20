@@ -1,12 +1,12 @@
-package calculators.advancedCalculator;
+package calculators.scientificCalculator;
 
 import notifications.message.Message;
 
 
-public class AdvancedCalculatorOperation {
+public class ScientificCalculatorOperation {
 	
 	//constructor
-	public AdvancedCalculatorOperation() {
+	public ScientificCalculatorOperation() {
 		super();
 	}
 	

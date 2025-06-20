@@ -61,7 +61,7 @@ public class UltimateCalculatorFrameGui extends JFrame {
 		for(int i=0; i<modes; i++) {
 			jCBItemMode[i] = new JCheckBoxMenuItem();
 		}
-		jCBItemMode[0].setText("Simple"); jCBItemMode[1].setText("Advanced"); 
+		jCBItemMode[0].setText("Simple"); jCBItemMode[1].setText("Scientific");
 			jCBItemMode[2].setText("Base"); jCBItemMode[3].setText("Equation");
 			jCBItemMode[4].setText("Unit Converter"); jCBItemMode[5].setText("Date Calculator");
 			jCBItemMode[6].setText("Prime Number");

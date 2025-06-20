@@ -1,4 +1,4 @@
-package calculators.advancedCalculator;
+package calculators.scientificCalculator;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,12 +16,12 @@ import javax.swing.UIManager;
 import mainFrame.UltimateCalculatorFrame;
 import utils.fileIO.FileIO;
 
-public class AdvancedCalculator extends UltimateCalculatorFrame{
+public class ScientificCalculator extends UltimateCalculatorFrame{
 	// GUI Declaration
-	private AdvancedCalculatorGui AdvCalcGui;
+	private ScientificCalculatorGui AdvCalcGui;
 	
 	//operational object
-	private AdvancedCalculatorOperationsExecutor advCalcOptExecutor;
+	private ScientificCalculatorOperationsExecutor advCalcOptExecutor;
 		
 	//**
 	// Variable Declaration 																	#*******D*******#
@@ -47,7 +47,7 @@ public class AdvancedCalculator extends UltimateCalculatorFrame{
 	// End of Variable Declaration 																#_______D_______#
 
 	/***##Constructor##***/
-	public AdvancedCalculator() {
+	public ScientificCalculator() {
 		inputString="";
     	number="";
     	shiftOn=false;
@@ -67,10 +67,10 @@ public class AdvancedCalculator extends UltimateCalculatorFrame{
 	@SuppressWarnings("serial")
 	private void initialComponent() {
 		// GUI Initialization
-		AdvCalcGui = new AdvancedCalculatorGui();
+		AdvCalcGui = new ScientificCalculatorGui();
 		
 		//operation object
-		advCalcOptExecutor = new AdvancedCalculatorOperationsExecutor();
+		advCalcOptExecutor = new ScientificCalculatorOperationsExecutor();
 		
 		//instruction
 		try {
@@ -283,7 +283,7 @@ public class AdvancedCalculator extends UltimateCalculatorFrame{
 		//**Setting Criterion of the Frame**//
 		super.gui.add(AdvCalcGui);
 		super.gui.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-		super.gui.setTitle("Advanced Calculator");
+		super.gui.setTitle("Scientific Calculator");
 		super.gui.setResizable(false);
 		super.gui.setBounds(230, 115, 500, 420);
 		super.gui.setFocusable(true);
@@ -453,6 +453,6 @@ public class AdvancedCalculator extends UltimateCalculatorFrame{
 		}
 
 		/* Create */
-		new AdvancedCalculator();
+		new ScientificCalculator();
 	}
 }

@@ -1,16 +1,16 @@
-package calculators.advancedCalculator;
+package calculators.scientificCalculator;
 
 import java.util.Stack;
 
 import notifications.message.Message;
 
 
-public class AdvancedCalculatorOperationsExecutor {
+public class ScientificCalculatorOperationsExecutor {
 	
 	
 	public String infixEvaluation(String string){
 		//necessary object
-		AdvancedCalculatorOperation aCOperation= new AdvancedCalculatorOperation();
+		ScientificCalculatorOperation aCOperation= new ScientificCalculatorOperation();
 		
 		String result="";	//the main result
 		

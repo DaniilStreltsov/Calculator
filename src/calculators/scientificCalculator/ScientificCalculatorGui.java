@@ -1,4 +1,4 @@
-package calculators.advancedCalculator;
+package calculators.scientificCalculator;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -12,7 +12,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 
 @SuppressWarnings("serial")
-public class AdvancedCalculatorGui extends JLabel{
+public class ScientificCalculatorGui extends JLabel{
 	//**
 	// Variable Declaration 																	#*******D*******#
 	//**
@@ -31,7 +31,7 @@ public class AdvancedCalculatorGui extends JLabel{
 	// End of Variable Declaration 																#_______D_______#
 
 	/***##Constructor##***/
-	public AdvancedCalculatorGui() {
+	public ScientificCalculatorGui() {
 
 		initialComponent();
 	}
@@ -247,7 +247,7 @@ public class AdvancedCalculatorGui extends JLabel{
 		}
 
 		/* Create and display the form */
-		AdvancedCalculatorGui gui = new AdvancedCalculatorGui();
+		ScientificCalculatorGui gui = new ScientificCalculatorGui();
 		
 		JFrame jFrame = new JFrame();
 		jFrame.setBounds(230, 115, 510, 420);

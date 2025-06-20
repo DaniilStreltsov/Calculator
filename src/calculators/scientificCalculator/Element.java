@@ -1,4 +1,4 @@
-package calculators.advancedCalculator;
+package calculators.scientificCalculator;
 
 public class Element {
 	private String string;     //string property
