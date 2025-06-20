@@ -282,7 +282,7 @@ public class UnitConverter extends UltimateCalculatorFrame{
 	public static void main(String args[]) {
 		/*// Set the NIMBUS look and feel //*/
 		try {
-			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 		} catch (Exception ex) {
 			// do nothing if operation is unsuccessful
 		}

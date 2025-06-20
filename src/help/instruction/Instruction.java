@@ -114,7 +114,7 @@ public class Instruction extends JFrame {
 	public static void main(String args[]) {
 		/*// Set the NIMBUS look and feel //*/
 		try {
-			javax.swing.UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+			javax.swing.UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 		} catch (Exception ex) {
 			// do nothing if operation is unsuccessful
 		}

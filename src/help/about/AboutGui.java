@@ -94,7 +94,7 @@ public class AboutGui extends JFrame {
 	public static void main(String args[]) {
 		/*// Set the NIMBUS look and feel //*/
 		try {
-			javax.swing.UIManager.setLookAndFeel("com.alee.laf.WebLookAndFeel");
+			javax.swing.UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 		} catch (Exception ex) {
 			// do nothing if operation is unsuccessful
 		}
