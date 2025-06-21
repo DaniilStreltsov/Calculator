@@ -72,31 +72,44 @@ public class ScientificCalculatorOperationsExecutor {
 		            if(element[i].getString().equals("(")){
 		                operator.push("(");
 		            }
-		            else if(element[i].getString().equals(")")){
-		                while(operator.lastElement()!="("){
-		                	if(operator.lastElement().equals("+") || operator.lastElement().equals("%")|| operator.lastElement().equals("-") ||
-		                			operator.lastElement().equals("x") ||operator.lastElement().equals("/") ||
-		                			operator.lastElement().equals("P") ||operator.lastElement().equals("C") ||
-		                			operator.lastElement().equals("^") || operator.lastElement().equals("mod")){
-			                    String b = (String) operand.pop();   //taking first two elements of the stack
-			                    String a = (String) operand.pop();
-			                    
-			                    String oprt = operator.pop();   //taking the top the operator of stack
-		
-			                    String r = aCOperation.operation(a, b, oprt);  //result after the operation of a & b
-			                    operand.push(r);   //pushing the result in the operand stack
-		                	}else{
-		                		String a = (String) operand.pop();   //taking first element of the stack
-			                    
-			                    String oprt = operator.pop();   //taking the top the operator of stack
-			                    
-			                    String r = aCOperation.operation(a, oprt);  //result after the operation of a
-			                    operand.push(r);   //pushing the result in the operand stack
-		                	}
-		                }
-		                operator.pop();   //pops the "("
-		            }
-		            else{
+
+					else if (element[i].getString().equals(")")) {
+						while (!operator.lastElement().equals("(")) {
+							String op = operator.lastElement();
+
+							if (op.equals("+") || op.equals("-") || op.equals("x") || op.equals("/") ||
+									op.equals("P") || op.equals("C") || op.equals("^") || op.equals("mod") || op.equals("%")) {
+
+								if (operand.size() >= 2) {
+									String b = operand.pop();
+									String a = operand.pop();
+									operator.pop();
+
+									String r = aCOperation.operation(a, b, op);
+									operand.push(r);
+								} else if (operand.size() == 1 && op.equals("%")) {
+									// Унарный процент — x / 100
+									String a = operand.pop();
+									operator.pop();
+
+									String r = aCOperation.operation(a, "%");
+									operand.push(r);
+								} else {
+									new Message("Wrong input!", 420);
+									return "0";
+								}
+
+							} else {
+								String a = operand.pop();
+								String oprt = operator.pop();
+
+								String r = aCOperation.operation(a, oprt);
+								operand.push(r);
+							}
+						}
+						operator.pop();   // удаляем "("
+					}
+					else{
 		                int opertPrecedence = operatorPrecedence(element[i].getString());
 	
 		                while(operator.lastElement()!="("){
