@@ -18,7 +18,7 @@ public class UltimateCalculatorFrameGui extends JFrame {
 	JMenu jMenuMode, jMenuHelp, jMenuAccessories;
     JCheckBoxMenuItem jCBItemMode[];
     JSeparator separator;
-    JMenuItem jMenuItemInstruction, jMenuItemDeveloper, jMenuItemAbout;
+    JMenuItem jMenuItemInstruction, jMenuItemDeveloper, jMenuItemAbout, jMenuItemHistory;
     
     //other variables
     int modes;
@@ -47,6 +47,7 @@ public class UltimateCalculatorFrameGui extends JFrame {
 		jMenuItemInstruction =  new JMenuItem();
 		jMenuItemDeveloper = new JMenuItem();
 		jMenuItemAbout = new JMenuItem();
+		jMenuItemHistory = new JMenuItem();
 		// End of Initialization																#_______I_______#
 
 		//**
@@ -73,7 +74,10 @@ public class UltimateCalculatorFrameGui extends JFrame {
 		jMenuItemDeveloper.setIcon(new ImageIcon(getClass().getResource("/res/imgs/DeveloperIcon.png"))); 
 		
 		jMenuItemAbout.setText("About");
-		jMenuItemAbout.setIcon(new ImageIcon(getClass().getResource("/res/imgs/AboutIcon.png"))); 
+		jMenuItemAbout.setIcon(new ImageIcon(getClass().getResource("/res/imgs/AboutIcon.png")));
+
+		jMenuItemHistory.setText("History");
+		jMenuItemHistory.setIcon(new ImageIcon(getClass().getResource("/res/imgs/AboutIcon.png")));
 		// End of Setting Bounds and Attributes 												#_______S_______#
 
 		//**
@@ -95,6 +99,7 @@ public class UltimateCalculatorFrameGui extends JFrame {
 		}
 		jMenuHelp.add(jMenuItemInstruction); jMenuHelp.add(jMenuItemDeveloper);
 		jMenuHelp.add(jMenuItemAbout);
+		jMenuHelp.add(jMenuItemHistory);
 		// End of Adding Components 															#_______A_______#
 
 		//**Setting Criterion of the Frame**//

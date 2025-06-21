@@ -14,6 +14,7 @@ import calculators.equationCalculator.EquationCalculator;
 import calculators.primeNumberHunter.PrimeNumberHunter;
 import calculators.simpleCalculator.SimpleCalculator;
 import calculators.unitConverter.UnitConverter;
+import help.history.History;
 import help.about.About;
 import help.developer.Profile;
 import help.instruction.Instruction;
@@ -26,7 +27,7 @@ public class UltimateCalculatorFrame{
 	// Variable Declaration 																	#*******D*******#
 	//**
     protected JCheckBoxMenuItem jCBItemMode[];
-    private JMenuItem jMenuItemInstruction, jMenuItemDeveloper, jMenuItemAbout;
+    private JMenuItem jMenuItemInstruction, jMenuItemDeveloper, jMenuItemAbout, jMenuItemHistory;
     
     
     //other variables
@@ -58,6 +59,7 @@ public class UltimateCalculatorFrame{
 		jMenuItemInstruction =  gui.jMenuItemInstruction;
 		jMenuItemDeveloper = gui.jMenuItemDeveloper;
 		jMenuItemAbout = gui.jMenuItemAbout;
+		jMenuItemHistory = gui.jMenuItemHistory;
 		
 		modes = gui.modes;
 		// End of Assignation																	#_______A_______#
@@ -84,12 +86,18 @@ public class UltimateCalculatorFrame{
             	jMenuItemDeveloperActionPerformed(evt);
             }
         });
-		
+
 		jMenuItemAbout.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
             	jMenuItemAboutActionPerformed(evt);
             }
         });
+
+		jMenuItemHistory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				jMenuItemHistoryActionPerformed(evt);
+			}
+		});
 		// End of Adding Action Events & Other Attributes										#_______AA_______#
 	}
 
@@ -120,11 +128,14 @@ public class UltimateCalculatorFrame{
   		new Instruction(instruction).setVisible(true);
   	}
   	private void jMenuItemDeveloperActionPerformed(ActionEvent evt){
-  		new Profile("17-Jan-2014");
+  		new Profile("19-06-2025");
   	}
   	private void jMenuItemAboutActionPerformed(ActionEvent e){
   		new About();
   	}
+	private void jMenuItemHistoryActionPerformed(ActionEvent e){
+		new History();
+	}
 	// End of Action Events 																	#_______AE_______#
 
 	//**

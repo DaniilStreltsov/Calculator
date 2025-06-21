@@ -19,7 +19,7 @@ import utils.fileIO.FileIO;
 public class ScientificCalculator extends UltimateCalculatorFrame{
 	// GUI Declaration
 	private ScientificCalculatorGui AdvCalcGui;
-	private static final String HISTORY_FILE = "calculator_history.txt";
+	private static final String HISTORY_FILE = "./src/res/txts/calculator_history.txt";
 	
 	//operational object
 	private ScientificCalculatorOperationsExecutor advCalcOptExecutor;
@@ -325,14 +325,6 @@ public class ScientificCalculator extends UltimateCalculatorFrame{
 			System.out.print(historyEntry);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-	}
-
-	public String readHistory() {
-		try {
-			return new String(java.nio.file.Files.readAllBytes(java.nio.file.Paths.get(HISTORY_FILE)));
-		} catch (Exception e) {
-			return "No history available";
 		}
 	}
 
