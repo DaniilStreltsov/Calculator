@@ -6,26 +6,26 @@ import notifications.message.Message;
 
 
 public class ScientificCalculatorOperationsExecutor {
-	
-	
+
+
 	public String infixEvaluation(String string){
 		//necessary object
 		ScientificCalculatorOperation aCOperation= new ScientificCalculatorOperation();
-		
+
 		String result="";	//the main result
-		
+
 		//Finding number of spaces in a string
 		int numberOfElements=charNumber(string, ' ');
-		
+
 		try{				//may occur math error
-		
+
 			//initializing attributes of the element
 			Element[] element=new Element[numberOfElements+1];	//element array
 			int charFrom=0, charTo=0;
 			for(int i=0; i<numberOfElements; i++){
 				String s="";     //string property
 			    boolean o=false;      //operator-true, operand-false
-			    
+
 			    //cutting sub strings
 			    int j=charFrom;
 			    while(string.charAt(j)!=' '){
@@ -34,33 +34,33 @@ public class ScientificCalculatorOperationsExecutor {
 			    charTo=j;
 			    s=string.substring(charFrom, charTo);
 			    charFrom=charTo+1;
-			    
-			    
+
+
 			    if(s.equals("+") || s.equals("-") || s.equals("x") || s.equals("/") || s.equals("^") ||	//when an operator is found
 		    		 s.equals("sqrt") || s.equals("%") || s.equals("(") || s.equals(")") || s.equals("P") || s.equals("C") || s.equals("mod") ||
-		    		 s.equals("log") || s.equals("ln") || s.equals("fact") || s.equals("sin") || s.equals("sinh") || 
+		    		 s.equals("log") || s.equals("ln") || s.equals("fact") || s.equals("sin") || s.equals("sinh") ||
 		    		 s.equals("asin") || s.equals("cbrt") || s.equals("cos") || s.equals("cosh") || s.equals("acos") ||
-		    		 s.equals("cube") || s.equals("tan") || s.equals("tanh") || s.equals("atan") || s.equals("sqre")){ 
-			    	
+		    		 s.equals("cube") || s.equals("tan") || s.equals("tanh") || s.equals("atan") || s.equals("sqre")){
+
 		            o=true;
 		        }else{		//when operand
 		            o=false;
 		        }
-			    
+
 			    element[i]=new Element(s, o);
-			    
+
 			    /*///test print
 			    System.out.println(s+" "+o);
 			    /**/
 			}
 			element[numberOfElements]=new Element(")", true);
-			
-			//Stack 
+
+			//Stack
 			Stack<String> operand=new Stack<>();    //postfix form of the input
 			Stack<String> operator=new Stack<>(); 	//temporarily stores operators
-	
+
 			operator.push("(");	//indicates the end
-			
+
 			/**
 			 * Starts
 			**/
@@ -75,46 +75,32 @@ public class ScientificCalculatorOperationsExecutor {
 
 					else if (element[i].getString().equals(")")) {
 						while (!operator.lastElement().equals("(")) {
-							String op = operator.lastElement();
+							String op = operator.pop();
 
-							if (op.equals("+") || op.equals("-") || op.equals("x") || op.equals("/") ||
-									op.equals("P") || op.equals("C") || op.equals("^") || op.equals("mod") || op.equals("%")) {
-
-								if (operand.size() >= 2) {
-									String b = operand.pop();
-									String a = operand.pop();
-									operator.pop();
-
-									String r = aCOperation.operation(a, b, op);
-									operand.push(r);
-								} else if (operand.size() == 1 && op.equals("%")) {
-									// Унарный процент — x / 100
-									String a = operand.pop();
-									operator.pop();
-
-									String r = aCOperation.operation(a, "%");
-									operand.push(r);
-								} else {
-									new Message("Wrong input!", 420);
-									return "0";
-								}
-
-							} else {
+							// Правильный порядок: a - b
+							if (operand.size() >= 2) {
+								String b = operand.pop();
 								String a = operand.pop();
-								String oprt = operator.pop();
-
-								String r = aCOperation.operation(a, oprt);
+								String r = aCOperation.operation(a, b, op);
 								operand.push(r);
+							} else if (operand.size() == 1) {
+								// Унарные операции, например %, sqrt
+								String a = operand.pop();
+								String r = aCOperation.operation(a, op);
+								operand.push(r);
+							} else {
+								new Message("Invalid expression", 420);
+								return "0";
 							}
 						}
-						operator.pop();   // удаляем "("
+						operator.pop(); // удаляем "("
 					}
 					else{
 		                int opertPrecedence = operatorPrecedence(element[i].getString());
-	
+
 		                while(operator.lastElement()!="("){
 		                    int stackPrecedence = operatorPrecedence(operator.lastElement());
-	
+
 		                    if(stackPrecedence <= opertPrecedence){
 		                    	break;
 		                    }
@@ -125,16 +111,16 @@ public class ScientificCalculatorOperationsExecutor {
 			                			operator.lastElement().equals("^") || operator.lastElement().equals("mod")){
 		                    		String b = (String) operand.pop();   //taking first two elements of the stack
 		                    		String a = (String) operand.pop();
-				                    
+
 				                    String oprt = operator.pop();   //taking the top the operator of stack
-			
+
 				                    String r = aCOperation.operation(a, b, oprt);  //result after the operation of a & b
 				                    operand.push(r);   //pushing the result in the operand stack
 			                	}else{
 			                		String a = (String) operand.pop();   //taking first element of the stack
-				                    
+
 				                    String oprt = operator.pop();   //taking the top the operator of stack
-				                    
+
 				                    String r = aCOperation.operation(a, oprt);  //result after the operation of a
 				                    operand.push(r);   //pushing the result in the operand stack
 			                	}
@@ -143,16 +129,16 @@ public class ScientificCalculatorOperationsExecutor {
 		                operator.push(element[i].getString());
 		            }
 		        }
-	
+
 		        if(i>element.length) {
 		            new Message("Math error!", 420);
 		            break;
 		        }
 		    }
 			//Ends
-			
+
 			result=(String) operand.pop();
-			
+
 			if(!operator.isEmpty() || !operand.isEmpty()){
 				result="";
 				new Message("Wrong input!", 420);
@@ -160,11 +146,11 @@ public class ScientificCalculatorOperationsExecutor {
 		}catch(Exception e){
 			new Message("Math Error!\n   Invalid input!", 420);
 		}
-		
+
 		return result;
 	}
-	
-	
+
+
 	//returns specific number of a char in a string
 	private int charNumber(String string, char ch){
 		int num=0;
@@ -173,28 +159,28 @@ public class ScientificCalculatorOperationsExecutor {
 		for(int i=0; i<length; i++){
 			if(string.charAt(i)==ch) num++;
 		}
-		
+
 		return num;
 	}
-	
+
 	//returns number depending on the operators
 	private int operatorPrecedence(String str){
 		int i=0;
-		
+
 		if(str.equals("+")) i=1;
 		else if(str.equals("-")) i=2;
 		else if(str.equals("x")) i=3;
 		else if(str.equals("/")) i=4;
-		else if(str.equals("mod")) i=5;		
+		else if(str.equals("mod")) i=5;
 		else if(str.equals("^")) i=6;
 		else if(str.equals("!")) i=7;
 		else if(str.equals("P") || str.equals("C")) i=8;
 		else i=9;
-		
+
 		return i;
 	}
-	
-	
+
+
 	/*///test main method
 	public static void main(String[] args) {
 		System.out.println(new AdvancedCalculatorOperationsExecutor().infixEvaluation("1.099 + 223 - 12 x 2 "));
