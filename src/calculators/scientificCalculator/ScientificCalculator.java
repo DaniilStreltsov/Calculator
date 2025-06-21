@@ -19,6 +19,7 @@ import utils.fileIO.FileIO;
 public class ScientificCalculator extends UltimateCalculatorFrame{
 	// GUI Declaration
 	private ScientificCalculatorGui AdvCalcGui;
+	private static final String HISTORY_FILE = "calculator_history.txt";
 	
 	//operational object
 	private ScientificCalculatorOperationsExecutor advCalcOptExecutor;
@@ -309,18 +310,47 @@ public class ScientificCalculator extends UltimateCalculatorFrame{
 		}
 		jTextDisplay.setText(inputString);
 	}
-	
+
+	private void writeToHistory(String expression, String result) {
+		try {
+			String timestamp = java.time.LocalDateTime.now().toString();
+			String historyEntry = String.format("[%s] %s = %s%n", timestamp, expression, result);
+
+			java.nio.file.Files.write(
+					java.nio.file.Paths.get(HISTORY_FILE),
+					historyEntry.getBytes(),
+					java.nio.file.StandardOpenOption.CREATE,
+					java.nio.file.StandardOpenOption.APPEND
+			);
+			System.out.print(historyEntry);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public String readHistory() {
+		try {
+			return new String(java.nio.file.Files.readAllBytes(java.nio.file.Paths.get(HISTORY_FILE)));
+		} catch (Exception e) {
+			return "No history available";
+		}
+	}
+
 	//operator buttons
 	private void jButtonOperator(ActionEvent evt){
 		if(evt.getActionCommand().equals("=")){
 			if(!inputString.endsWith(" ")) {
 				inputString = inputString + " ";
 			}
-			
+
 			String result = advCalcOptExecutor.infixEvaluation(inputString);
-			
+
 			jLabelDisplay.setText(result);
-			if(!result.equals("")) ans=result;
+			if(!result.equals("")) {
+				ans = result;
+				// Write to history file
+				writeToHistory(inputString.trim(), result);
+			}
 		}
 		else{
 			if(number.length()>0){
