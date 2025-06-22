@@ -9,6 +9,10 @@ public class ScientificCalculatorOperationsExecutor {
 
 
 	public String infixEvaluation(String string){
+		if (string.startsWith("-")) {
+			string = "0 " + string;
+		}
+
 		//necessary object
 		ScientificCalculatorOperation aCOperation= new ScientificCalculatorOperation();
 
