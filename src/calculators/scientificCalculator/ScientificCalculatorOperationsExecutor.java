@@ -95,40 +95,28 @@ public class ScientificCalculatorOperationsExecutor {
 						}
 						operator.pop(); // удаляем "("
 					}
-					else{
-		                int opertPrecedence = operatorPrecedence(element[i].getString());
+					else {
+						while (!operator.empty() && !operator.peek().equals("(")
+								&& precedence(operator.peek()) >= precedence(element[i].getString())) {
 
-		                while(operator.lastElement()!="("){
-		                    int stackPrecedence = operatorPrecedence(operator.lastElement());
+							String op = operator.pop();
 
-		                    if(stackPrecedence <= opertPrecedence){
-		                    	break;
-		                    }
-		                    else{
-		                    	if(operator.lastElement().equals("+") || operator.lastElement().equals("-") ||
-			                			operator.lastElement().equals("x") ||operator.lastElement().equals("/") ||
-			                			operator.lastElement().equals("P") ||operator.lastElement().equals("C") ||
-			                			operator.lastElement().equals("^") || operator.lastElement().equals("mod")){
-		                    		String b = (String) operand.pop();   //taking first two elements of the stack
-		                    		String a = (String) operand.pop();
+							if (operand.size() >= 2) {
+								String b = operand.pop();
+								String a = operand.pop();
+								String r = aCOperation.operation(a, b, op);
+								operand.push(r);
+							} else if (operand.size() == 1) {
+								String a = operand.pop();
+								String r = aCOperation.operation(a, op);
+								operand.push(r);
+							}
+						}
 
-				                    String oprt = operator.pop();   //taking the top the operator of stack
+						operator.push(element[i].getString());
+					}
 
-				                    String r = aCOperation.operation(a, b, oprt);  //result after the operation of a & b
-				                    operand.push(r);   //pushing the result in the operand stack
-			                	}else{
-			                		String a = (String) operand.pop();   //taking first element of the stack
-
-				                    String oprt = operator.pop();   //taking the top the operator of stack
-
-				                    String r = aCOperation.operation(a, oprt);  //result after the operation of a
-				                    operand.push(r);   //pushing the result in the operand stack
-			                	}
-		                    }
-		                }
-		                operator.push(element[i].getString());
-		            }
-		        }
+				}
 
 		        if(i>element.length) {
 		            new Message("Math error!", 420);
@@ -186,4 +174,14 @@ public class ScientificCalculatorOperationsExecutor {
 		System.out.println(new AdvancedCalculatorOperationsExecutor().infixEvaluation("1.099 + 223 - 12 x 2 "));
 	}
 	/**/
+	// ← строка 187
+
+	private int precedence(String op) {
+		return switch (op) {
+			case "+", "-" -> 1;
+			case "x", "/", "%" -> 2;
+			case "^" -> 3;
+			default -> 0;
+		};
+	}
 }
