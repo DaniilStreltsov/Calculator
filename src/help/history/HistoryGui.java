@@ -79,7 +79,7 @@ public class HistoryGui extends JFrame {
         // End of Adding Components 															#_______A_______#
 
         //**Setting Criterion of the Frame**//
-        setIconImage(new ImageIcon(getClass().getResource("/res/imgs/AboutIcon.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/res/imgs/history.png")).getImage());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setBounds(200, 150, 375, 450);
         setTitle("History");

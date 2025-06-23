@@ -38,7 +38,7 @@ public class ScientificCalculatorOperation {
 		
 		try{
 			if(operator.equals("%")) return percentage(operand);
-			if(operator.equals("sqrt")) return sqrt(operand);
+			else if(operator.equals("sqrt")) return sqrt(operand);
 			else if(operator.equals("cbrt")) return cbrt(operand);
 			else if(operator.equals("fact")) return factorial(operand);
 			else if(operator.equals("sqre")) return sqre(operand);

@@ -14,14 +14,11 @@ public class Profile implements Runnable{
 	//**
 	// Variable Declaration 																	#*******D*******#
 	//**
-	private JButton jButtonPhoto;
 	private JLabel jLabelDate;
-    private JLabel jLabelPhoto[];
     private JTextArea jTextAreaInformation;
     
     //other variables
     private String date;			//Change it accordingly
-    private int numberOfPhotos;		//number of profile photos
     private int position;			//position determiner 
     private boolean isStanding;		//picture show is standing or not
     private String developerInfo;
@@ -68,12 +65,8 @@ public class Profile implements Runnable{
 		//**
 		// Assignation 																			#*******A*******#
 		//**
-    	jButtonPhoto = gui.jButtonPhoto;
         jLabelDate = gui.jLabelDate;
-        jLabelPhoto = gui.jLabelPhoto;
         jTextAreaInformation = gui.jTextAreaInformation;
-        
-        numberOfPhotos = gui.numberOfPhotos;
         
         try {
         	developerInfo = FileIO.readWholeFile(getClass().getResourceAsStream("/res/txts/Developer.txt"));
@@ -85,14 +78,9 @@ public class Profile implements Runnable{
 		//**
 		// Adding Action Events & Other Attributes												#*******AA*******#
 		//**
-        jLabelDate.setText("Date: 19.06.2025");
+        jLabelDate.setText("Date: " + date);
         jTextAreaInformation.setText(developerInfo);
-        
-        jButtonPhoto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	jPanelPhotoActionPerformed(evt);
-            }
-        });
+
 		// End of Adding Action Events & Other Attributes										#_______AA_______#
 	}
 
@@ -119,32 +107,9 @@ public class Profile implements Runnable{
 	//**
 	@SuppressWarnings("static-access")
 	public void run() {
-		int criticalPoint=numberOfPhotos*(-180) - numberOfPhotos - 1;
-		
+
 		while(true){
-			if(!isStanding){
-				position--;
-			}
-			
-			for(int i=0; i<numberOfPhotos+1; i++){
-				jLabelPhoto[i].setLocation(position + (i*181), 0);			
-			}
-			
-			try {
-				thread.sleep(4);
-				for(int i=0; i<numberOfPhotos; i++){
-					if(position == i*(-180) - i - 1){
-						thread.sleep(900);
-						break;
-					}
-				}
-			}catch(Exception e) {
-				//do nothing
-			}
-			
-			if(position == criticalPoint){
-				position=0;
-			}
+
 		}
 	}
 	// End of Unimplemented Methods 															#_______UM_______#

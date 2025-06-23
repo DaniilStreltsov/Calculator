@@ -77,7 +77,7 @@ public class UltimateCalculatorFrameGui extends JFrame {
 		jMenuItemAbout.setIcon(new ImageIcon(getClass().getResource("/res/imgs/AboutIcon.png")));
 
 		jMenuItemHistory.setText("History");
-		jMenuItemHistory.setIcon(new ImageIcon(getClass().getResource("/res/imgs/AboutIcon.png")));
+		jMenuItemHistory.setIcon(new ImageIcon(getClass().getResource("/res/imgs/history.png")));
 		// End of Setting Bounds and Attributes 												#_______S_______#
 
 		//**

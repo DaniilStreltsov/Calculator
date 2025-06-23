@@ -13,9 +13,7 @@ public class ProfileGui extends JFrame {
 	// Variable Declaration 																	#*******D*******#
 	//**
 	JLabel jLabelMain;
-	JButton jButtonPhoto;
 	JLabel jLabelName, jLabelInstitute, jLabelDate, jLabelEmail;
-    JLabel jLabelPhoto[];
     JTextArea jTextAreaInformation;
     
     //other variables
@@ -24,8 +22,6 @@ public class ProfileGui extends JFrame {
 
 	/***##Constructor##***/
 	public ProfileGui() {
-		numberOfPhotos=2;
-		
 		initialComponent();
 	}
 
@@ -39,12 +35,10 @@ public class ProfileGui extends JFrame {
 		// Initialization 																		#*******I*******#
 		//**
 		jLabelMain = new JLabel();
-    	jButtonPhoto = new JButton();
         jLabelName = new JLabel();
         jLabelInstitute = new JLabel();
         jLabelDate = new JLabel();
         jLabelEmail = new JLabel();
-        jLabelPhoto = new JLabel[numberOfPhotos+1];	//we need one extra photo
      
         jTextAreaInformation = new JTextArea();
 		// End of Initialization																#_______I_______#
@@ -58,14 +52,14 @@ public class ProfileGui extends JFrame {
         jLabelMain.setLayout(null);
 
         jLabelName.setFont(new java.awt.Font("Lucida Bright", 2, 15)); // NOI18N
-        jLabelName.setText("Hto ya");
+        jLabelName.setText("Ruslan Sabitov, Daniil Streltsov, Konstantin Shevtsov");
         jLabelName.setToolTipText("Name");
-        jLabelName.setBounds(20, 60, 120, 20);
+        jLabelName.setBounds(20, 60, 500, 20);
 
         jLabelInstitute.setFont(new java.awt.Font("Lucida Bright", 2, 15)); // NOI18N
-        jLabelInstitute.setText("UEban");
+        jLabelInstitute.setText("University of Europe for Applied Sciences, Germany");
         jLabelInstitute.setToolTipText("Educational Institute");
-        jLabelInstitute.setBounds(20, 90, 290, 20);
+        jLabelInstitute.setBounds(20, 90, 500, 20);
 
         jLabelDate.setFont(new java.awt.Font("Lucida Bright", 2, 15)); // NOI18N
         jLabelDate.setText("19.06.2025");
@@ -73,26 +67,8 @@ public class ProfileGui extends JFrame {
         jLabelDate.setBounds(20, 120, 200, 20);
 
         jLabelEmail.setFont(new java.awt.Font("Lucida Bright", 2, 15)); // NOI18N
-        jLabelEmail.setText("Email: aboba@gmail.com");
+        jLabelEmail.setText("Email: ...@ue-germany.com");
         jLabelEmail.setBounds(20, 150, 260, 20);
-
-
-        jButtonPhoto.setToolTipText("Click to play/pause");
-        jButtonPhoto.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jButtonPhoto.setLayout(null);
-        jButtonPhoto.setBounds(328, 15, 180, 195);
-        
-        //photos
-        for(int i=0; i<numberOfPhotos; i++){
-        	jLabelPhoto[i]=new JLabel();
-        	jLabelPhoto[i].setBounds(i*181, 0, 180, 195);
-        	jLabelPhoto[i].setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/imgs/DeveloperImg" +
-        			(i+1) + ".png")));
-        }
-        jLabelPhoto[numberOfPhotos]=new JLabel();
-    	jLabelPhoto[numberOfPhotos].setBounds(numberOfPhotos*181, 0, 180, 195);
-    	jLabelPhoto[numberOfPhotos].setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/imgs/DeveloperImg" +
-    			1 + ".png")));
        
         //text area
         jTextAreaInformation.setEditable(false);
@@ -109,13 +85,10 @@ public class ProfileGui extends JFrame {
 		//**
 		// Adding Components 																	#*******A*******#
 		//**
-        for(int i=0; i<=numberOfPhotos; i++){
-        	jButtonPhoto.add(jLabelPhoto[i]);
-        }
        
         //adding features to the main panel
         jLabelMain.add(jLabelName); jLabelMain.add(jLabelInstitute); jLabelMain.add(jLabelDate); jLabelMain.add(jLabelEmail);
-        jLabelMain.add(jButtonPhoto); jLabelMain.add(jTextAreaInformation);
+        jLabelMain.add(jTextAreaInformation);
 		// End of Adding Components 															#_______A_______#
 
 		//**Setting Criterion of the Frame**//
