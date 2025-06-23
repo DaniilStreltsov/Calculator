@@ -324,7 +324,7 @@ public class BaseCalculator extends UltimateCalculatorFrame{
 		super.gui.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		super.gui.setTitle("Base Calculator");
 		super.gui.setResizable(false);
-		super.gui.setBounds(230, 115, 327, 450);
+		super.gui.setBounds(230, 115, 470, 600);
 	}
 
 	//**

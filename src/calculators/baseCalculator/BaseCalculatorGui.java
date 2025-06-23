@@ -180,7 +180,7 @@ public class BaseCalculatorGui extends JLabel {
 		}
 
 		// Clear Buttons
-		String[] clearLabels = {"C", "AC", "⌫"};
+		String[] clearLabels = {"C", "AC", "<B"};
 
 		for (int i = 0; i < 3; i++) {
 			jButtonClear[i] = new JButton(clearLabels[i]);
@@ -245,7 +245,7 @@ public class BaseCalculatorGui extends JLabel {
 		}
 
 		// Setting Criterion of the Frame
-		setBounds(0, 0, 380, 500);
+		setBounds(0, 0, 470, 600);
 		setBackground(BACKGROUND_COLOR);
 		setOpaque(true);
 
@@ -349,7 +349,7 @@ public class BaseCalculatorGui extends JLabel {
 
 			JFrame jFrame = new JFrame("Base Calculator");
 			jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			jFrame.setSize(395, 530);
+			jFrame.setSize(470, 600);
 			jFrame.setLayout(null);
 			jFrame.add(gui);
 			jFrame.setResizable(false);
