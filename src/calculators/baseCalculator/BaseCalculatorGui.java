@@ -1,215 +1,360 @@
 package calculators.baseCalculator;
 
-import java.awt.Color;
-import java.awt.Font;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JToggleButton;
-import javax.swing.UIManager;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.SoftBevelBorder;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 @SuppressWarnings("serial")
 public class BaseCalculatorGui extends JLabel {
-	//**
-	// Variable Declaration 																	#*******D*******#
-	//**
+
+	// Constants for styling
+	private static final Color BACKGROUND_COLOR = new Color(45, 45, 48);
+	private static final Color DISPLAY_COLOR = new Color(32, 32, 35);
+	private static final Color BUTTON_COLOR = new Color(65, 65, 68);
+	private static final Color NUMBER_BUTTON_COLOR = new Color(80, 80, 83);
+	private static final Color OPERATOR_COLOR = new Color(255, 159, 10);
+	private static final Color BASE_BUTTON_COLOR = new Color(100, 100, 103);
+	private static final Color BASE_ACTIVE_COLOR = new Color(255, 159, 10);
+	private static final Color CLEAR_BUTTON_COLOR = new Color(220, 53, 69);
+	private static final Color TEXT_COLOR = Color.WHITE;
+	private static final Color DISPLAY_TEXT_COLOR = Color.WHITE;
+
+	private static final Font DISPLAY_FONT = new Font("Segoe UI", Font.PLAIN, 24);
+	private static final Font BUTTON_FONT = new Font("Segoe UI", Font.PLAIN, 18);
+	private static final Font BASE_FONT = new Font("Segoe UI", Font.PLAIN, 14);
+
+	// Original component names
 	JToggleButton[] jTButtonBase;
-	
 	JButton[] jButtonNumerical;
 	JButton[] jButtonAlphaNumerical;
 	JButton[] jButtonOperator;
 	JButton[] jButtonMemory;
 	JButton[] jButtonClear;
 	JButton jButtonPoint;
-	
 	JLabel[] jLabelDisplay;
-	// End of Variable Declaration 																#_______D_______#
 
-	/***##Constructor##***/
 	public BaseCalculatorGui() {
-
 		initialComponent();
 	}
 
-	
-	/**
-	 * Method for Initializing all the GUI variables and placing them all to specific space on 
-	 * the frame. It also specifies criteria of the main frame.
-	 */
 	private void initialComponent() {
-		//**
-		// Initialization 																		#*******I*******#
-		//**
+		// Initialization
 		jTButtonBase = new JToggleButton[4];
-		
-		jButtonNumerical=new JButton[10];	//10 buttons(0-9)
-		jButtonPoint=new JButton();			//point(.)
-		jButtonAlphaNumerical=new JButton[6];//A-F
-		jButtonOperator=new JButton[5];		//+, -, *, /, SQRT(), =
-		jButtonMemory=new JButton[2];		//M, MS
-		jButtonClear=new JButton[3]; 		//AC, C, back space
-		
-		jLabelDisplay=new JLabel[2];	//operation, result
-		// End of Initialization																#_______I_______#
+		jButtonNumerical = new JButton[10];
+		jButtonPoint = new JButton();
+		jButtonAlphaNumerical = new JButton[6];
+		jButtonOperator = new JButton[5];
+		jButtonMemory = new JButton[2];
+		jButtonClear = new JButton[3];
+		jLabelDisplay = new JLabel[2];
 
-		//**
-		// Setting Bounds and Attributes of the Elements 										#*******S*******#
-		//**
-		//toggle buttons base
-		for(int i=0; i<4; i++){
-			jTButtonBase[i] = new JToggleButton();
-			jTButtonBase[i].setSize(40, 25);
-			jTButtonBase[i].setBackground(new Color(200, 200, 200));
+		// Setting Bounds and Attributes of the Elements
+
+		// Base toggle buttons
+		String[] baseLabels = {"BIN", "OCT", "DEC", "HEX"};
+		ButtonGroup baseGroup = new ButtonGroup();
+
+		for (int i = 0; i < 4; i++) {
+			jTButtonBase[i] = new JToggleButton(baseLabels[i]);
+			jTButtonBase[i].setSize(80, 35);
+			jTButtonBase[i].setLocation(20 + i * 85, 130);
+			jTButtonBase[i].setBackground(BASE_BUTTON_COLOR);
+			jTButtonBase[i].setForeground(TEXT_COLOR);
+			jTButtonBase[i].setFont(BASE_FONT);
 			jTButtonBase[i].setBorder(null);
+			jTButtonBase[i].setFocusPainted(false);
+			jTButtonBase[i].setCursor(new Cursor(Cursor.HAND_CURSOR));
+			baseGroup.add(jTButtonBase[i]);
+
+			// Add selection styling
+			final int index = i;
+			jTButtonBase[i].addActionListener(e -> {
+				updateBaseButtonStyles();
+				updateButtonStates();
+			});
 		}
-		jTButtonBase[0].setLocation(150, 130); jTButtonBase[0].setText("Bin");
-		jTButtonBase[1].setLocation(190, 130); jTButtonBase[1].setText("Oct");
-		jTButtonBase[2].setLocation(230, 130); jTButtonBase[2].setText("Dec");
-		jTButtonBase[3].setLocation(270, 130); jTButtonBase[3].setText("Hex");
-	
-		//Numeric Buttons
-		for(int i=0; i<10; i++){
-			jButtonNumerical[i] = new JButton(""+i);
-			jButtonNumerical[i].setSize(50, 40);
-			jButtonNumerical[i].setLocation(((i-1)%3)*50+10, 310-(((i-1)/3)*40));
-			jButtonNumerical[i].setFont(new Font("Calibri", 0, 19));
-			jButtonNumerical[i].setBackground(new Color(200, 200, 190));
+		jTButtonBase[2].setSelected(true); // Default to decimal
+
+		// Numeric Buttons
+		int startX = 20, startY = 240, buttonSize = 60, gap = 10;
+
+		for (int i = 0; i < 10; i++) {
+			jButtonNumerical[i] = new JButton("" + i);
+			jButtonNumerical[i].setSize(buttonSize, buttonSize);
+			jButtonNumerical[i].setFont(BUTTON_FONT);
+			jButtonNumerical[i].setBackground(NUMBER_BUTTON_COLOR);
+			jButtonNumerical[i].setForeground(TEXT_COLOR);
 			jButtonNumerical[i].setBorder(null);
+			jButtonNumerical[i].setFocusPainted(false);
+			jButtonNumerical[i].setCursor(new Cursor(Cursor.HAND_CURSOR));
+			addHoverEffect(jButtonNumerical[i], NUMBER_BUTTON_COLOR);
 		}
-		jButtonNumerical[0].setLocation(10, 350); jButtonNumerical[0].setSize(100, 40);
-	
-		//Point
-		jButtonPoint.setBackground(new Color(210, 210, 190));
-		jButtonPoint.setText(""); jButtonPoint.setBounds(110, 350, 50, 40);
-		jButtonPoint.setFont(new Font("Vrinda", 0, 26));
-		jButtonPoint.setRolloverEnabled(false);
-			
-		//Alpha Numerical Buttons
-		for(int i=0; i<6; i++){
-			jButtonAlphaNumerical[i]=new JButton();
-			jButtonAlphaNumerical[i].setSize(45, 40);
-			jButtonAlphaNumerical[i].setFont(new Font("Times New Roman", 1, 18));
+
+		// Calculator-style layout for numbers
+		jButtonNumerical[7].setLocation(startX, startY);
+		jButtonNumerical[8].setLocation(startX + (buttonSize + gap), startY);
+		jButtonNumerical[9].setLocation(startX + 2 * (buttonSize + gap), startY);
+
+		jButtonNumerical[4].setLocation(startX, startY + (buttonSize + gap));
+		jButtonNumerical[5].setLocation(startX + (buttonSize + gap), startY + (buttonSize + gap));
+		jButtonNumerical[6].setLocation(startX + 2 * (buttonSize + gap), startY + (buttonSize + gap));
+
+		jButtonNumerical[1].setLocation(startX, startY + 2 * (buttonSize + gap));
+		jButtonNumerical[2].setLocation(startX + (buttonSize + gap), startY + 2 * (buttonSize + gap));
+		jButtonNumerical[3].setLocation(startX + 2 * (buttonSize + gap), startY + 2 * (buttonSize + gap));
+
+		jButtonNumerical[0].setLocation(startX, startY + 3 * (buttonSize + gap));
+		jButtonNumerical[0].setSize((buttonSize * 2) + gap, buttonSize);
+
+		// Point
+		jButtonPoint.setBackground(NUMBER_BUTTON_COLOR);
+		jButtonPoint.setForeground(TEXT_COLOR);
+		jButtonPoint.setText(".");
+		jButtonPoint.setBounds(startX + 2 * (buttonSize + gap), startY + 3 * (buttonSize + gap), buttonSize, buttonSize);
+		jButtonPoint.setFont(BUTTON_FONT);
+		jButtonPoint.setBorder(null);
+		jButtonPoint.setFocusPainted(false);
+		jButtonPoint.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		addHoverEffect(jButtonPoint, NUMBER_BUTTON_COLOR);
+
+		// Alpha Numerical Buttons (A-F)
+		String[] hexLabels = {"A", "B", "C", "D", "E", "F"};
+		int hexX = startX + 4 * (buttonSize + gap);
+
+		for (int i = 0; i < 6; i++) {
+			jButtonAlphaNumerical[i] = new JButton(hexLabels[i]);
+			jButtonAlphaNumerical[i].setSize(buttonSize, buttonSize);
+			jButtonAlphaNumerical[i].setFont(BUTTON_FONT);
 			jButtonAlphaNumerical[i].setBorder(null);
-			jButtonAlphaNumerical[i].setBackground(new Color(180, 170, 165));
+			jButtonAlphaNumerical[i].setBackground(NUMBER_BUTTON_COLOR);
+			jButtonAlphaNumerical[i].setForeground(TEXT_COLOR);
+			jButtonAlphaNumerical[i].setFocusPainted(false);
+			jButtonAlphaNumerical[i].setCursor(new Cursor(Cursor.HAND_CURSOR));
+			addHoverEffect(jButtonAlphaNumerical[i], NUMBER_BUTTON_COLOR);
 		}
-		jButtonAlphaNumerical[0].setLocation(220, 230); jButtonAlphaNumerical[0].setText("A");
-		jButtonAlphaNumerical[1].setLocation(220, 270); jButtonAlphaNumerical[1].setText("B");
-		jButtonAlphaNumerical[2].setLocation(267, 230); jButtonAlphaNumerical[2].setText("C");
-		jButtonAlphaNumerical[3].setLocation(267, 270); jButtonAlphaNumerical[3].setText("D");
-		jButtonAlphaNumerical[4].setLocation(267, 310); jButtonAlphaNumerical[4].setText("E");
-		jButtonAlphaNumerical[5].setLocation(267, 350); jButtonAlphaNumerical[5].setText("F");
-		
-		//Operator Buttons
-		for(int i=0; i<5; i++){
-			jButtonOperator[i] = new JButton();
-			jButtonOperator[i].setSize(45, 40);
-			jButtonOperator[i].setFont(new Font("Calibri", 0, 17));
-			jButtonOperator[i].setBackground(new Color(188, 188, 188));
+
+		jButtonAlphaNumerical[0].setLocation(hexX, startY); // A
+		jButtonAlphaNumerical[1].setLocation(hexX, startY + (buttonSize + gap)); // B
+		jButtonAlphaNumerical[2].setLocation(hexX + (buttonSize + gap), startY); // C
+		jButtonAlphaNumerical[3].setLocation(hexX + (buttonSize + gap), startY + (buttonSize + gap)); // D
+		jButtonAlphaNumerical[4].setLocation(hexX + (buttonSize + gap), startY + 2 * (buttonSize + gap)); // E
+		jButtonAlphaNumerical[5].setLocation(hexX + (buttonSize + gap), startY + 3 * (buttonSize + gap)); // F
+
+		// Operator Buttons
+		String[] operatorLabels = {"+", "−", "×", "÷", "="};
+
+		for (int i = 0; i < 5; i++) {
+			jButtonOperator[i] = new JButton(operatorLabels[i]);
+			jButtonOperator[i].setSize(buttonSize, buttonSize);
+			jButtonOperator[i].setFont(new Font("Segoe UI", Font.PLAIN, 20));
+			jButtonOperator[i].setBackground(OPERATOR_COLOR);
+			jButtonOperator[i].setForeground(Color.BLACK);
 			jButtonOperator[i].setBorder(null);
+			jButtonOperator[i].setFocusPainted(false);
+			jButtonOperator[i].setCursor(new Cursor(Cursor.HAND_CURSOR));
+			addHoverEffect(jButtonOperator[i], OPERATOR_COLOR);
 		}
-		jButtonOperator[0].setText("+"); jButtonOperator[0].setLocation(173, 350);
-		jButtonOperator[1].setText("-"); jButtonOperator[1].setLocation(173, 310);
-		jButtonOperator[2].setText("x"); jButtonOperator[2].setLocation(173, 270);
-		jButtonOperator[3].setText("/"); jButtonOperator[3].setLocation(173, 230);
-		jButtonOperator[4].setText("="); jButtonOperator[4].setBounds(220, 310, 45, 80);
-		jButtonOperator[4].setFont(new Font("Arial", 0, 19));
-			
-		
-		//Memory Buttons
-		for(int i=0; i<2; i++){
-			jButtonMemory[i] = new JButton(); 
-			jButtonMemory[i].setSize(50, 33);
-			jButtonMemory[i].setFont(new Font("Arial", 0, 13));
+
+		jButtonOperator[0].setLocation(startX + 3 * (buttonSize + gap), startY + 3 * (buttonSize + gap)); // +
+		jButtonOperator[1].setLocation(startX + 3 * (buttonSize + gap), startY + 2 * (buttonSize + gap)); // −
+		jButtonOperator[2].setLocation(startX + 3 * (buttonSize + gap), startY + (buttonSize + gap)); // ×
+		jButtonOperator[3].setLocation(startX + 3 * (buttonSize + gap), startY); // ÷
+		jButtonOperator[4].setBounds(startX + 4 * (buttonSize + gap), startY + 2 * (buttonSize + gap), buttonSize, (buttonSize * 2) + gap); // =
+
+		// Memory Buttons
+		String[] memoryLabels = {"MR", "MS"};
+		int memoryY = 180;
+
+		for (int i = 0; i < 2; i++) {
+			jButtonMemory[i] = new JButton(memoryLabels[i]);
+			jButtonMemory[i].setSize(60, 45);
+			jButtonMemory[i].setLocation(20 + i * 70, memoryY);
+			jButtonMemory[i].setFont(new Font("Segoe UI", Font.PLAIN, 14));
 			jButtonMemory[i].setBorder(null);
+			jButtonMemory[i].setBackground(BUTTON_COLOR);
+			jButtonMemory[i].setForeground(TEXT_COLOR);
+			jButtonMemory[i].setFocusPainted(false);
+			jButtonMemory[i].setCursor(new Cursor(Cursor.HAND_CURSOR));
+			addHoverEffect(jButtonMemory[i], BUTTON_COLOR);
 		}
-		jButtonMemory[0].setText("M"); jButtonMemory[0].setLocation(10, 185);
-		jButtonMemory[1].setText("MS"); jButtonMemory[1].setLocation(60, 185);
-		
-		//Clear Buttons
-		for(int i=0; i<3; i++){
-			jButtonClear[i] = new JButton();
-			jButtonClear[i].setSize(45, 33);
-			jButtonClear[i].setFont(new Font("Vrinda", 0, 17));
+
+		// Clear Buttons
+		String[] clearLabels = {"C", "AC", "⌫"};
+
+		for (int i = 0; i < 3; i++) {
+			jButtonClear[i] = new JButton(clearLabels[i]);
+			jButtonClear[i].setSize(60, 45);
+			jButtonClear[i].setFont(new Font("Segoe UI", Font.PLAIN, 16));
 			jButtonClear[i].setBorder(null);
+			jButtonClear[i].setBackground(CLEAR_BUTTON_COLOR);
+			jButtonClear[i].setForeground(TEXT_COLOR);
+			jButtonClear[i].setFocusPainted(false);
+			jButtonClear[i].setCursor(new Cursor(Cursor.HAND_CURSOR));
+			addHoverEffect(jButtonClear[i], CLEAR_BUTTON_COLOR);
 		}
-		jButtonClear[0].setText("C"); jButtonClear[0].setLocation(221, 185);
-		jButtonClear[1].setText("AC"); jButtonClear[1].setLocation(266, 185);
-		jButtonClear[2].setText("<B"); jButtonClear[2].setLocation(110, 185); jButtonClear[2].setSize(50, 33);
 
-		//Display label
-		for(int i=0; i<2; i++){
-			jLabelDisplay[i] = new JLabel();
-			jLabelDisplay[i].setSize(298, 45);
-			jLabelDisplay[i].setHorizontalAlignment(4);
-			jLabelDisplay[i].setFont(new Font("Calibri", 0, 18));
-			jLabelDisplay[i].setBackground(new Color(100, 100, 90));
-			jLabelDisplay[i].setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
+		jButtonClear[0].setLocation(230, memoryY); // C
+		jButtonClear[1].setLocation(300, memoryY); // AC
+		jButtonClear[2].setLocation(160, memoryY); // Backspace
+
+		// Create displays
+		jLabelDisplay[0] = new JLabel("", JLabel.RIGHT);
+		jLabelDisplay[1] = new JLabel("0", JLabel.RIGHT);
+
+		for (int i = 0; i < 2; i++) {
+			jLabelDisplay[i].setBackground(DISPLAY_COLOR);
+			jLabelDisplay[i].setForeground(DISPLAY_TEXT_COLOR);
+			jLabelDisplay[i].setOpaque(true);
+			jLabelDisplay[i].setBorder(new EmptyBorder(10, 15, 10, 15));
 		}
-		jLabelDisplay[0].setLocation(10, 18);
-		jLabelDisplay[1].setLocation(10, 63); jLabelDisplay[1].setSize(298, 60);
-			jLabelDisplay[1].setFont(new Font("Calibri", 0, 22));
-		
-		// End of Setting Bounds and Attributes 												#_______S_______#
 
-		//**
-		// Adding Components 																	#*******A*******#
-		//**
-		//adding toggle buttons
-		for(int i=0; i<4; i++){
+		jLabelDisplay[0].setLocation(20, 20);
+		jLabelDisplay[0].setSize(340, 35);
+		jLabelDisplay[0].setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		jLabelDisplay[0].setForeground(new Color(170, 170, 170));
+
+		jLabelDisplay[1].setLocation(20, 55);
+		jLabelDisplay[1].setSize(340, 60);
+		jLabelDisplay[1].setFont(DISPLAY_FONT);
+
+		// Adding Components
+		for (int i = 0; i < 4; i++) {
 			add(jTButtonBase[i]);
 		}
-		
-		//adding buttons
-		for(int i=0; i<10; i++){
+
+		for (int i = 0; i < 10; i++) {
 			add(jButtonNumerical[i]);
 		}
-		for(int i=0; i<6; i++){
+		for (int i = 0; i < 6; i++) {
 			add(jButtonAlphaNumerical[i]);
 		}
 		add(jButtonPoint);
-		for(int i=0; i<5; i++){
+		for (int i = 0; i < 5; i++) {
 			add(jButtonOperator[i]);
 		}
-		for(int i=0; i<2; i++){
+		for (int i = 0; i < 2; i++) {
 			add(jButtonMemory[i]);
 		}
-		for(int i=0; i<3; i++){
+		for (int i = 0; i < 3; i++) {
 			add(jButtonClear[i]);
 		}
-		
-		//adding display labels
-		for(int i=0; i<2; i++){
+
+		for (int i = 0; i < 2; i++) {
 			add(jLabelDisplay[i]);
 		}
-		// End of Adding Components 															#_______A_______#
 
-		//**Setting Criterion of the Frame**//
-		setBounds(0, 0, 327, 475);
-		setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/imgs/" +
-				"BaseCalculatorBackground.jpg")));
-			
+		// Setting Criterion of the Frame
+		setBounds(0, 0, 380, 500);
+		setBackground(BACKGROUND_COLOR);
+		setOpaque(true);
+
+		// Initial state update
+		updateBaseButtonStyles();
+		updateButtonStates();
 	}
 
-	/********* Main Method *********/
+	private void addHoverEffect(JButton button, Color originalColor) {
+		button.addMouseListener(new java.awt.event.MouseAdapter() {
+			@Override
+			public void mouseEntered(java.awt.event.MouseEvent evt) {
+				if (button.isEnabled()) {
+					if (originalColor == OPERATOR_COLOR) {
+						button.setBackground(new Color(255, 179, 64));
+					} else {
+						button.setBackground(originalColor.brighter());
+					}
+				}
+			}
+
+			@Override
+			public void mouseExited(java.awt.event.MouseEvent evt) {
+				if (button.isEnabled()) {
+					button.setBackground(originalColor);
+				}
+			}
+		});
+	}
+
+	private void updateBaseButtonStyles() {
+		for (int i = 0; i < jTButtonBase.length; i++) {
+			if (jTButtonBase[i].isSelected()) {
+				jTButtonBase[i].setBackground(BASE_ACTIVE_COLOR);
+				jTButtonBase[i].setForeground(Color.BLACK);
+			} else {
+				jTButtonBase[i].setBackground(BASE_BUTTON_COLOR);
+				jTButtonBase[i].setForeground(TEXT_COLOR);
+			}
+		}
+	}
+
+	private void updateButtonStates() {
+		boolean isBinary = jTButtonBase[0].isSelected();
+		boolean isOctal = jTButtonBase[1].isSelected();
+		boolean isDecimal = jTButtonBase[2].isSelected();
+		boolean isHex = jTButtonBase[3].isSelected();
+
+		// Update number buttons based on base
+		for (int i = 0; i < 10; i++) {
+			if (isBinary) {
+				jButtonNumerical[i].setEnabled(i < 2);
+			} else if (isOctal) {
+				jButtonNumerical[i].setEnabled(i < 8);
+			} else {
+				jButtonNumerical[i].setEnabled(true);
+			}
+
+			// Visual feedback for disabled buttons
+			if (!jButtonNumerical[i].isEnabled()) {
+				jButtonNumerical[i].setBackground(new Color(40, 40, 43));
+				jButtonNumerical[i].setForeground(new Color(100, 100, 100));
+			} else {
+				jButtonNumerical[i].setBackground(NUMBER_BUTTON_COLOR);
+				jButtonNumerical[i].setForeground(TEXT_COLOR);
+			}
+		}
+
+		// Update hex buttons
+		for (JButton btn : jButtonAlphaNumerical) {
+			btn.setEnabled(isHex);
+			if (!btn.isEnabled()) {
+				btn.setBackground(new Color(40, 40, 43));
+				btn.setForeground(new Color(100, 100, 100));
+			} else {
+				btn.setBackground(NUMBER_BUTTON_COLOR);
+				btn.setForeground(TEXT_COLOR);
+			}
+		}
+
+		// Point button only enabled for decimal
+		jButtonPoint.setEnabled(isDecimal);
+		if (!jButtonPoint.isEnabled()) {
+			jButtonPoint.setBackground(new Color(40, 40, 43));
+			jButtonPoint.setForeground(new Color(100, 100, 100));
+		} else {
+			jButtonPoint.setBackground(NUMBER_BUTTON_COLOR);
+			jButtonPoint.setForeground(TEXT_COLOR);
+		}
+	}
+
 	public static void main(String args[]) {
-		/*// Set the NIMBUS look and feel //*/
 		try {
-			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception ex) {
 			// do nothing if operation is unsuccessful
 		}
 
-		/* Create and display the form */
-		BaseCalculatorGui gui = new BaseCalculatorGui();
-		
-		JFrame jFrame = new JFrame();
-		jFrame.setBounds(230, 115, 332, 450);
-		jFrame.setVisible(true);
-		jFrame.setLayout(null);
-		jFrame.add(gui);
-		jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		SwingUtilities.invokeLater(() -> {
+			BaseCalculatorGui gui = new BaseCalculatorGui();
+
+			JFrame jFrame = new JFrame("Base Calculator");
+			jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			jFrame.setSize(395, 530);
+			jFrame.setLayout(null);
+			jFrame.add(gui);
+			jFrame.setResizable(false);
+			jFrame.setLocationRelativeTo(null); // центрирование окна
+			jFrame.setVisible(true);
+		});
 	}
 }
