@@ -1,9 +1,8 @@
 package main.java;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.net.URL;
+import javax.swing.*;
 
 /**
  * Window to display developer information
@@ -18,7 +17,7 @@ public class DeveloperInfoWindow extends JDialog {
     }
     
     private void initializeComponents() {
-        setSize(500, 400);
+        setSize(650, 650); // Increased height even more
         setLocationRelativeTo(getParent());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -57,102 +56,145 @@ public class DeveloperInfoWindow extends JDialog {
     
     private JPanel createMainContentPanel() {
         JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(2, 1, 10, 10));
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS)); // Changed from GridLayout
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         mainPanel.setBackground(Color.WHITE);
         
         // Developer 1
         JPanel dev1Panel = createDeveloperPanel(
             "Developer 1",
-            "John Doe",
-            "Matrix No: 2023001234",
-            "Lead Developer & UI Designer",
-            new Color(220, 240, 255)
+            "Konstantin Shevtsov",
+            "Matriculation number: 85030549",
+            "Frontend Developer and GUI Designer",
+            new Color(220, 240, 255),
+            "dev1.jpg"
         );
         
         // Developer 2
         JPanel dev2Panel = createDeveloperPanel(
             "Developer 2", 
-            "Jane Smith",
-            "Matrix No: 2023005678",
+            "Daniil Streltsov",
+            "Matriculation number: 32930509",
             "Backend Engineer & Algorithm Specialist",
-            new Color(255, 240, 220)
+            new Color(255, 240, 220),
+            "dev2.jpg"
         );
 
+        // Developer 3
         JPanel dev3Panel = createDeveloperPanel(
-                "Developer 2",
-                "Jane Smith",
-                "Matrix No: 2023005678",
-                "Backend Engineer & Algorithm Specialist",
-                new Color(255, 240, 195)
+            "Developer 3",
+            "Ruslan Sabitov",
+            "Matriculation number: 99774243",
+            "Testing & Algorithm Specialist",
+            new Color(255, 240, 195),
+            "dev3.jpg"
         );
         
         mainPanel.add(dev1Panel);
+        mainPanel.add(Box.createVerticalStrut(15)); // Add spacing
         mainPanel.add(dev2Panel);
+        mainPanel.add(Box.createVerticalStrut(15)); // Add spacing
         mainPanel.add(dev3Panel);
         
         return mainPanel;
     }
     
-    private JPanel createDeveloperPanel(String role, String name, String matrixNo, String specialty, Color bgColor) {
+    private JPanel createDeveloperPanel(String role, String name, String matrixNo, String specialty, Color bgColor, String imageName) {
         JPanel devPanel = new JPanel();
-        devPanel.setLayout(new BorderLayout());
+        devPanel.setLayout(new BorderLayout(15, 0));
         devPanel.setBackground(bgColor);
         devPanel.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createRaisedBevelBorder(),
             BorderFactory.createEmptyBorder(15, 15, 15, 15)
         ));
+        devPanel.setPreferredSize(new Dimension(580, 130)); // Increased height
+        devPanel.setMaximumSize(new Dimension(580, 130)); // Increased height
         
-        // Photo placeholder
+        // Photo panel
         JPanel photoPanel = new JPanel();
         photoPanel.setBackground(bgColor);
-        photoPanel.setPreferredSize(new Dimension(80, 80));
+        photoPanel.setPreferredSize(new Dimension(120, 100)); // Increased height
+        photoPanel.setLayout(new BorderLayout());
         
-        // Create a placeholder image
-        JLabel photoLabel = new JLabel();
-        photoLabel.setPreferredSize(new Dimension(70, 70));
-        photoLabel.setOpaque(true);
-        photoLabel.setBackground(new Color(200, 200, 200));
-        photoLabel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
-        photoLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        photoLabel.setText("📷");
-        photoLabel.setFont(new Font("Arial", Font.PLAIN, 24));
-        
-        photoPanel.add(photoLabel);
+        // Load image from /img directory
+        JLabel photoLabel = createPhotoLabel(imageName);
+        photoPanel.add(photoLabel, BorderLayout.CENTER);
         
         // Info panel
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.setBackground(bgColor);
+        infoPanel.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15)); // Increased padding
         
         JLabel roleLabel = new JLabel(role);
         roleLabel.setFont(new Font("Arial", Font.BOLD, 12));
         roleLabel.setForeground(new Color(70, 70, 70));
+        roleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         
         JLabel nameLabel = new JLabel(name);
-        nameLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        nameLabel.setFont(new Font("Arial", Font.BOLD, 18)); // Slightly larger
         nameLabel.setForeground(new Color(25, 25, 112));
+        nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         
         JLabel matrixLabel = new JLabel(matrixNo);
-        matrixLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+        matrixLabel.setFont(new Font("Arial", Font.PLAIN, 13)); // Slightly larger
         matrixLabel.setForeground(new Color(100, 100, 100));
+        matrixLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         
         JLabel specialtyLabel = new JLabel(specialty);
-        specialtyLabel.setFont(new Font("Arial", Font.ITALIC, 11));
+        specialtyLabel.setFont(new Font("Arial", Font.ITALIC, 12)); // Slightly larger
         specialtyLabel.setForeground(new Color(120, 120, 120));
+        specialtyLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         
         infoPanel.add(roleLabel);
-        infoPanel.add(Box.createVerticalStrut(3));
+        infoPanel.add(Box.createVerticalStrut(5)); // Increased spacing
         infoPanel.add(nameLabel);
-        infoPanel.add(Box.createVerticalStrut(3));
+        infoPanel.add(Box.createVerticalStrut(5)); // Increased spacing
         infoPanel.add(matrixLabel);
-        infoPanel.add(Box.createVerticalStrut(3));
+        infoPanel.add(Box.createVerticalStrut(5)); // Increased spacing
         infoPanel.add(specialtyLabel);
+        infoPanel.add(Box.createVerticalGlue()); // Push everything to top
         
         devPanel.add(photoPanel, BorderLayout.WEST);
         devPanel.add(infoPanel, BorderLayout.CENTER);
         
         return devPanel;
+    }
+    
+    private JLabel createPhotoLabel(String imageName) {
+        JLabel photoLabel = new JLabel();
+        photoLabel.setPreferredSize(new Dimension(300, 300)); // Increased size
+        photoLabel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
+        photoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        photoLabel.setVerticalAlignment(SwingConstants.CENTER);
+        
+        try {
+            // Try to load image from /img directory in resources
+            URL imageUrl = getClass().getResource("/img/" + imageName);
+            if (imageUrl != null) {
+                ImageIcon originalIcon = new ImageIcon(imageUrl);
+                Image img = originalIcon.getImage();
+                
+                // Scale to 86x86 to fit within the label with border
+                Image scaledImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+                ImageIcon scaledIcon = new ImageIcon(scaledImg);
+                photoLabel.setIcon(scaledIcon);
+            } else {
+                // Fallback if image not found
+                photoLabel.setOpaque(true);
+                photoLabel.setBackground(new Color(200, 200, 200));
+                photoLabel.setText("📷");
+                photoLabel.setFont(new Font("Arial", Font.PLAIN, 30));
+            }
+        } catch (Exception e) {
+            // Fallback if image loading fails
+            photoLabel.setOpaque(true);
+            photoLabel.setBackground(new Color(200, 200, 200));
+            photoLabel.setText("📷");
+            photoLabel.setFont(new Font("Arial", Font.PLAIN, 30));
+        }
+        
+        return photoLabel;
     }
     
     private JPanel createFooterPanel() {
@@ -174,15 +216,10 @@ public class DeveloperInfoWindow extends JDialog {
         courseLabel.setFont(new Font("Arial", Font.PLAIN, 11));
         courseLabel.setForeground(new Color(80, 80, 80));
         
-        JLabel versionLabel = new JLabel("Version: 1.0.0 | " + java.time.LocalDate.now());
-        versionLabel.setFont(new Font("Arial", Font.PLAIN, 10));
-        versionLabel.setForeground(new Color(120, 120, 120));
-        
         projectInfoPanel.add(projectLabel);
         projectInfoPanel.add(Box.createVerticalStrut(3));
         projectInfoPanel.add(courseLabel);
         projectInfoPanel.add(Box.createVerticalStrut(3));
-        projectInfoPanel.add(versionLabel);
         
         // Close button
         JButton closeButton = new JButton("Close");
