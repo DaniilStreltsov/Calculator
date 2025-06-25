@@ -25,8 +25,13 @@ public class CalculatorEngine {
     // Angle mode for trigonometric functions
     private boolean isDegreeMode = true;
     
+    // Add these new fields to the class
+    private StringBuilder expressionBuilder;
+    private boolean isExpressionMode;
+    
     public CalculatorEngine() {
         this.history = new ArrayList<>();
+        this.expressionBuilder = new StringBuilder();
         clear();
     }
     
@@ -41,6 +46,8 @@ public class CalculatorEngine {
         isNewCalculation = true;
         isError = false;
         errorMessage = null;
+        expressionBuilder.setLength(0);
+        isExpressionMode = false;
     }
     
     /**
@@ -361,4 +368,87 @@ public class CalculatorEngine {
     public boolean isDegreeMode() { return isDegreeMode; }
     public double getMemoryValue() { return memoryValue; }
     public boolean hasMemoryValue() { return memoryValue != 0; }
+    
+    // Add new methods for expression handling
+    
+    /**
+     * Add character to expression
+     */
+    public void addToExpression(String token) {
+        if (isError) clear();
+        
+        if (!isExpressionMode) {
+            expressionBuilder.setLength(0);
+            isExpressionMode = true;
+        }
+        
+        expressionBuilder.append(token);
+        currentInput = expressionBuilder.toString();
+    }
+    
+    /**
+     * Evaluate the current expression
+     */
+    public void evaluateExpression() {
+        if (isError) return;
+        
+        String expression = expressionBuilder.toString();
+        if (expression.isEmpty()) {
+            expression = currentInput;
+        }
+        
+        try {
+            double result = ExpressionEvaluator.evaluate(expression, isDegreeMode);
+            
+            String calculation = expression + " = " + formatNumber(result);
+            history.add(calculation);
+            
+            currentValue = result;
+            currentInput = formatNumber(result);
+            expressionBuilder.setLength(0);
+            isExpressionMode = false;
+            isNewCalculation = true;
+            
+        } catch (IllegalArgumentException e) {
+            setError("Syntax Error: " + e.getMessage());
+        } catch (ArithmeticException e) {
+            setError("Math Error: " + e.getMessage());
+        } catch (Exception e) {
+            setError("Error: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Remove last character from expression
+     */
+    public void backspaceExpression() {
+        if (isError) {
+            clear();
+            return;
+        }
+        
+        if (isExpressionMode && expressionBuilder.length() > 0) {
+            expressionBuilder.setLength(expressionBuilder.length() - 1);
+            currentInput = expressionBuilder.length() > 0 ? expressionBuilder.toString() : "0";
+            if (expressionBuilder.length() == 0) {
+                isExpressionMode = false;
+            }
+        } else {
+            backspace(); // Use existing backspace for non-expression mode
+        }
+    }
+    
+    /**
+     * Check if in expression mode
+     */
+    public boolean isExpressionMode() {
+        return isExpressionMode;
+    }
+    
+    /**
+     * Get current expression
+     */
+    public String getCurrentExpression() {
+        return expressionBuilder.toString();
+    }
 }

@@ -1,7 +1,7 @@
 package main.java;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 /**
  * Panel containing basic arithmetic operation buttons
@@ -17,16 +17,20 @@ public class BasicOperationPanel extends JPanel {
     }
     
     private void initializeComponents() {
-        setLayout(new GridLayout(7, 1, 5, 5));
+        setLayout(new GridLayout(8, 1, 5, 5)); // Increased rows
         setBorder(BorderFactory.createTitledBorder("Operations"));
+        
+        // Parentheses
+        add(createParenthesesButton("("));
+        add(createParenthesesButton(")"));
         
         // Basic operations
         add(createOperationButton("+"));
         add(createOperationButton("-"));
         add(createOperationButton("×"));
         add(createOperationButton("÷"));
-        add(createModuloButton()); // Changed to modulo for % operator
-        add(createPercentageButton()); // New percentage button
+        add(createModuloButton()); 
+        add(createPercentageButton());
         
         // Control buttons
         JPanel controlPanel = new JPanel(new GridLayout(2, 1, 2, 2));
@@ -35,6 +39,22 @@ public class BasicOperationPanel extends JPanel {
         add(controlPanel);
     }
     
+    private JButton createParenthesesButton(String paren) {
+        JButton button = new JButton(paren);
+        button.setFont(new Font("Arial", Font.BOLD, 16));
+        button.setPreferredSize(new Dimension(60, 40));
+        button.setBackground(new Color(255, 255, 224));
+        button.setToolTipText("Parentheses for grouping");
+        
+        button.addActionListener(e -> {
+            engine.addToExpression(paren);
+            displayPanel.updateDisplay();
+        });
+        
+        return button;
+    }
+    
+    // Update operation button to support expression mode
     private JButton createOperationButton(String operation) {
         JButton button = new JButton(operation);
         button.setFont(new Font("Arial", Font.BOLD, 16));
@@ -42,7 +62,11 @@ public class BasicOperationPanel extends JPanel {
         button.setBackground(new Color(230, 230, 250));
         
         button.addActionListener(e -> {
-            engine.setOperator(operation);
+            if (engine.isExpressionMode()) {
+                engine.addToExpression(operation);
+            } else {
+                engine.setOperator(operation);
+            }
             displayPanel.updateDisplay();
         });
         
@@ -79,13 +103,18 @@ public class BasicOperationPanel extends JPanel {
         return button;
     }
     
+    // Update equals button
     private JButton createEqualsButton() {
         JButton button = new JButton("=");
         button.setFont(new Font("Arial", Font.BOLD, 18));
         button.setBackground(new Color(144, 238, 144));
         
         button.addActionListener(e -> {
-            engine.calculate();
+            if (engine.isExpressionMode()) {
+                engine.evaluateExpression();
+            } else {
+                engine.calculate();
+            }
             displayPanel.updateDisplay();
         });
         

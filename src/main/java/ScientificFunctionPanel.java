@@ -1,7 +1,7 @@
 package main.java;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 /**
  * Panel containing scientific function buttons
@@ -44,6 +44,7 @@ public class ScientificFunctionPanel extends JPanel {
         add(createAngleModeButton());
     }
     
+    // Update function button creation
     private JButton createFunctionButton(String function) {
         JButton button = new JButton(function);
         button.setFont(new Font("Arial", Font.BOLD, 11));
@@ -51,7 +52,11 @@ public class ScientificFunctionPanel extends JPanel {
         button.setBackground(new Color(240, 248, 255));
         
         button.addActionListener(e -> {
-            engine.performScientificOperation(function);
+            if (engine.isExpressionMode()) {
+                engine.addToExpression(function + "(");
+            } else {
+                engine.performScientificOperation(function);
+            }
             displayPanel.updateDisplay();
         });
         
@@ -72,14 +77,19 @@ public class ScientificFunctionPanel extends JPanel {
         return button;
     }
     
+    // Update backspace button
     private JButton createBackspaceButton() {
-        JButton button = new JButton("<");
+        JButton button = new JButton("⌫");
         button.setFont(new Font("Arial", Font.BOLD, 16));
         button.setPreferredSize(new Dimension(70, 35));
         button.setBackground(new Color(255, 222, 173));
         
         button.addActionListener(e -> {
-            engine.backspace();
+            if (engine.isExpressionMode()) {
+                engine.backspaceExpression();
+            } else {
+                engine.backspace();
+            }
             displayPanel.updateDisplay();
         });
         

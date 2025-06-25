@@ -32,26 +32,36 @@ public class NumericKeypadPanel extends JPanel {
         add(createSignToggleButton());
     }
     
+    // Update number button creation
     private JButton createNumberButton(String number) {
         JButton button = new JButton(number);
         button.setFont(new Font("Arial", Font.BOLD, 16));
         button.setPreferredSize(new Dimension(60, 50));
         
         button.addActionListener(e -> {
-            engine.inputDigit(Integer.parseInt(number));
+            if (engine.isExpressionMode()) {
+                engine.addToExpression(number);
+            } else {
+                engine.inputDigit(Integer.parseInt(number));
+            }
             displayPanel.updateDisplay();
         });
         
         return button;
     }
     
+    // Update decimal button
     private JButton createDecimalButton() {
         JButton button = new JButton(".");
         button.setFont(new Font("Arial", Font.BOLD, 16));
         button.setPreferredSize(new Dimension(60, 50));
         
         button.addActionListener(e -> {
-            engine.inputDecimal();
+            if (engine.isExpressionMode()) {
+                engine.addToExpression(".");
+            } else {
+                engine.inputDecimal();
+            }
             displayPanel.updateDisplay();
         });
         
