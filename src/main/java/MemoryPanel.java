@@ -3,9 +3,6 @@ package main.java;
 import java.awt.*;
 import javax.swing.*;
 
-/**
- * Panel containing memory operation buttons
- */
 public class MemoryPanel extends JPanel {
     private CalculatorEngine engine;
     private DisplayPanel displayPanel;

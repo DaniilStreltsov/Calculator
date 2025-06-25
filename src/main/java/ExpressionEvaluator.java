@@ -2,44 +2,26 @@ package main.java;
 
 import java.util.*;
 
-/**
- * Expression evaluator that handles mathematical expressions with proper precedence
- * Supports parentheses, basic arithmetic, and scientific functions
- */
 public class ExpressionEvaluator {
     
-    /**
-     * Evaluates a mathematical expression string
-     * @param expression The mathematical expression to evaluate
-     * @param isDegreeMode Whether trigonometric functions should use degrees
-     * @return The result of the evaluation
-     * @throws IllegalArgumentException for invalid expressions
-     */
     public static double evaluate(String expression, boolean isDegreeMode) throws IllegalArgumentException {
         if (expression == null || expression.trim().isEmpty()) {
             throw new IllegalArgumentException("Empty expression");
         }
         
-        // Remove whitespace and validate
         expression = expression.replaceAll("\\s+", "");
         validateExpression(expression);
         
-        // Convert infix to postfix (Shunting-yard algorithm)
         List<String> postfix = infixToPostfix(expression);
         
-        // Evaluate postfix expression
         return evaluatePostfix(postfix, isDegreeMode);
     }
     
-    /**
-     * Validates the expression for basic syntax errors
-     */
     private static void validateExpression(String expression) {
         if (expression.isEmpty()) {
             throw new IllegalArgumentException("Empty expression");
         }
         
-        // Check for balanced parentheses
         int parenthesesCount = 0;
         for (char c : expression.toCharArray()) {
             if (c == '(') {
@@ -56,7 +38,6 @@ public class ExpressionEvaluator {
             throw new IllegalArgumentException("Unbalanced parentheses");
         }
         
-        // Check for invalid characters
         String validChars = "0123456789.+-×÷()^%sincotan!lqrt";
         for (char c : expression.toCharArray()) {
             if (validChars.indexOf(c) == -1) {
@@ -65,9 +46,6 @@ public class ExpressionEvaluator {
         }
     }
     
-    /**
-     * Converts infix expression to postfix using Shunting-yard algorithm
-     */
     private static List<String> infixToPostfix(String expression) {
         List<String> output = new ArrayList<>();
         Stack<String> operators = new Stack<>();
@@ -77,7 +55,6 @@ public class ExpressionEvaluator {
             char c = expression.charAt(i);
             
             if (Character.isDigit(c) || c == '.') {
-                // Parse number
                 StringBuilder number = new StringBuilder();
                 while (i < expression.length() && (Character.isDigit(expression.charAt(i)) || expression.charAt(i) == '.')) {
                     number.append(expression.charAt(i));
@@ -87,7 +64,6 @@ public class ExpressionEvaluator {
                 continue;
             }
             
-            // Handle functions (sin, cos, tan, log, ln, sqrt)
             if (Character.isLetter(c)) {
                 StringBuilder function = new StringBuilder();
                 while (i < expression.length() && Character.isLetter(expression.charAt(i))) {
@@ -105,9 +81,8 @@ public class ExpressionEvaluator {
                     output.add(operators.pop());
                 }
                 if (!operators.isEmpty()) {
-                    operators.pop(); // Remove the '('
+                    operators.pop();
                 }
-                // If there's a function before the parentheses, add it to output
                 if (!operators.isEmpty() && isFunction(operators.peek())) {
                     output.add(operators.pop());
                 }
@@ -130,9 +105,6 @@ public class ExpressionEvaluator {
         return output;
     }
     
-    /**
-     * Evaluates postfix expression
-     */
     private static double evaluatePostfix(List<String> postfix, boolean isDegreeMode) {
         Stack<Double> stack = new Stack<>();
         
@@ -162,9 +134,6 @@ public class ExpressionEvaluator {
         return stack.pop();
     }
     
-    /**
-     * Performs arithmetic operations
-     */
     private static double performOperation(double a, double b, String operator) {
         switch (operator) {
             case "+":
@@ -186,9 +155,6 @@ public class ExpressionEvaluator {
         }
     }
     
-    /**
-     * Performs mathematical functions
-     */
     private static double performFunction(double operand, String function, boolean isDegreeMode) {
         double angleInRadians = isDegreeMode ? Math.toRadians(operand) : operand;
         
@@ -213,9 +179,6 @@ public class ExpressionEvaluator {
         }
     }
     
-    /**
-     * Gets operator precedence
-     */
     private static int getPrecedence(String operator) {
         switch (operator) {
             case "+":
@@ -232,25 +195,16 @@ public class ExpressionEvaluator {
         }
     }
     
-    /**
-     * Checks if token is an operator
-     */
     private static boolean isOperator(String token) {
         return token.equals("+") || token.equals("-") || token.equals("×") || 
                token.equals("÷") || token.equals("^") || token.equals("%");
     }
     
-    /**
-     * Checks if token is a function
-     */
     private static boolean isFunction(String token) {
         return token.equals("sin") || token.equals("cos") || token.equals("tan") ||
                token.equals("log") || token.equals("ln") || token.equals("sqrt");
     }
     
-    /**
-     * Checks if token is a number
-     */
     private static boolean isNumber(String token) {
         try {
             Double.parseDouble(token);

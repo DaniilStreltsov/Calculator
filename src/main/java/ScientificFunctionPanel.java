@@ -3,9 +3,6 @@ package main.java;
 import java.awt.*;
 import javax.swing.*;
 
-/**
- * Panel containing scientific function buttons
- */
 public class ScientificFunctionPanel extends JPanel {
     private CalculatorEngine engine;
     private DisplayPanel displayPanel;
@@ -20,7 +17,6 @@ public class ScientificFunctionPanel extends JPanel {
         setLayout(new GridLayout(6, 3, 3, 3));
         setBorder(BorderFactory.createTitledBorder("Scientific Functions"));
         
-        // Trigonometric functions
         add(createFunctionButton("sin"));
         add(createFunctionButton("cos"));
         add(createFunctionButton("tan"));
@@ -29,7 +25,6 @@ public class ScientificFunctionPanel extends JPanel {
         add(createFunctionButton("acos"));
         add(createFunctionButton("atan"));
         
-        // Logarithmic and exponential
         add(createFunctionButton("log"));
         add(createFunctionButton("ln"));
         add(createFunctionButton("e^x"));
@@ -38,13 +33,11 @@ public class ScientificFunctionPanel extends JPanel {
         add(createOperationButton("x^y"));
         add(createFunctionButton("sqrt"));
         
-        // Special functions
         add(createFunctionButton("x!"));
         add(createBackspaceButton());
         add(createAngleModeButton());
     }
     
-    // Update function button creation
     private JButton createFunctionButton(String function) {
         JButton button = new JButton(function);
         button.setFont(new Font("Arial", Font.BOLD, 11));
@@ -77,9 +70,8 @@ public class ScientificFunctionPanel extends JPanel {
         return button;
     }
     
-    // Update backspace button
     private JButton createBackspaceButton() {
-        JButton button = new JButton("⌫");
+        JButton button = new JButton("<");
         button.setFont(new Font("Arial", Font.BOLD, 16));
         button.setPreferredSize(new Dimension(70, 35));
         button.setBackground(new Color(255, 222, 173));

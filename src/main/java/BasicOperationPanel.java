@@ -3,9 +3,6 @@ package main.java;
 import java.awt.*;
 import javax.swing.*;
 
-/**
- * Panel containing basic arithmetic operation buttons
- */
 public class BasicOperationPanel extends JPanel {
     private CalculatorEngine engine;
     private DisplayPanel displayPanel;
@@ -17,14 +14,12 @@ public class BasicOperationPanel extends JPanel {
     }
     
     private void initializeComponents() {
-        setLayout(new GridLayout(8, 1, 5, 5)); // Increased rows
+        setLayout(new GridLayout(8, 1, 5, 5));
         setBorder(BorderFactory.createTitledBorder("Operations"));
         
-        // Parentheses
         add(createParenthesesButton("("));
         add(createParenthesesButton(")"));
         
-        // Basic operations
         add(createOperationButton("+"));
         add(createOperationButton("-"));
         add(createOperationButton("×"));
@@ -32,7 +27,6 @@ public class BasicOperationPanel extends JPanel {
         add(createModuloButton()); 
         add(createPercentageButton());
         
-        // Control buttons
         JPanel controlPanel = new JPanel(new GridLayout(2, 1, 2, 2));
         controlPanel.add(createEqualsButton());
         controlPanel.add(createClearButton());
@@ -54,7 +48,6 @@ public class BasicOperationPanel extends JPanel {
         return button;
     }
     
-    // Update operation button to support expression mode
     private JButton createOperationButton(String operation) {
         JButton button = new JButton(operation);
         button.setFont(new Font("Arial", Font.BOLD, 16));
@@ -103,7 +96,6 @@ public class BasicOperationPanel extends JPanel {
         return button;
     }
     
-    // Update equals button
     private JButton createEqualsButton() {
         JButton button = new JButton("=");
         button.setFont(new Font("Arial", Font.BOLD, 18));

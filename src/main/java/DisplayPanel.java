@@ -1,11 +1,8 @@
 package main.java;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
-/**
- * Display panel for showing calculator input and results
- */
 public class DisplayPanel extends JPanel {
     private JTextField displayField;
     private JLabel historyLabel;
@@ -18,6 +15,34 @@ public class DisplayPanel extends JPanel {
         setupLayout();
     }
     
+    public void updateDisplay() {
+        String displayText = engine.getCurrentInput();
+        
+        if (engine.isExpressionMode()) {
+            displayText = "Expr: " + displayText;
+        }
+        
+        displayField.setText(displayText);
+        
+        String mode = engine.isDegreeMode() ? "DEG" : "RAD";
+        String memory = engine.hasMemoryValue() ? "M: " + formatMemoryValue() : "M: 0";
+        String exprMode = engine.isExpressionMode() ? " | EXPR" : "";
+        modeLabel.setText(mode + " | " + memory + exprMode);
+        
+        java.util.List<String> history = engine.getHistory();
+        if (!history.isEmpty()) {
+            historyLabel.setText(history.get(history.size() - 1));
+        } else {
+            historyLabel.setText(" ");
+        }
+        
+        if (engine.isError()) {
+            displayField.setBackground(new Color(255, 230, 230));
+        } else {
+            displayField.setBackground(Color.WHITE);
+        }
+    }
+    
     private void initializeComponents() {
         displayField = new JTextField();
         displayField.setEditable(false);
@@ -26,16 +51,19 @@ public class DisplayPanel extends JPanel {
         displayField.setBackground(Color.WHITE);
         displayField.setBorder(BorderFactory.createLoweredBevelBorder());
         displayField.setPreferredSize(new Dimension(400, 50));
+        displayField.setToolTipText("Use keyboard: Numbers, +, -, *, /, (, ), =, Backspace, Esc");
         
         historyLabel = new JLabel(" ");
         historyLabel.setFont(new Font("Arial", Font.PLAIN, 12));
         historyLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         historyLabel.setForeground(Color.GRAY);
+        historyLabel.setToolTipText("Last calculation - Press Ctrl+H for full history");
         
         modeLabel = new JLabel("DEG | M: 0");
         modeLabel.setFont(new Font("Arial", Font.PLAIN, 10));
         modeLabel.setHorizontalAlignment(SwingConstants.LEFT);
         modeLabel.setForeground(Color.BLUE);
+        modeLabel.setToolTipText("Angle mode and Memory status - Ctrl+D to toggle DEG/RAD");
         
         updateDisplay();
     }
@@ -50,33 +78,6 @@ public class DisplayPanel extends JPanel {
         
         add(topPanel, BorderLayout.NORTH);
         add(displayField, BorderLayout.CENTER);
-    }
-    
-    /**
-     * Update the display with current calculator state
-     */
-    public void updateDisplay() {
-        displayField.setText(engine.getCurrentInput());
-        
-        // Update mode and memory indicator
-        String mode = engine.isDegreeMode() ? "DEG" : "RAD";
-        String memory = engine.hasMemoryValue() ? "M: " + formatMemoryValue() : "M: 0";
-        modeLabel.setText(mode + " | " + memory);
-        
-        // Show last calculation in history
-        java.util.List<String> history = engine.getHistory();
-        if (!history.isEmpty()) {
-            historyLabel.setText(history.get(history.size() - 1));
-        } else {
-            historyLabel.setText(" ");
-        }
-        
-        // Error highlighting
-        if (engine.isError()) {
-            displayField.setBackground(new Color(255, 230, 230));
-        } else {
-            displayField.setBackground(Color.WHITE);
-        }
     }
     
     private String formatMemoryValue() {

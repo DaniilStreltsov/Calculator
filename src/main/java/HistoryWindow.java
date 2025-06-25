@@ -1,14 +1,9 @@
 package main.java;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
+import javax.swing.*;
 
-/**
- * Window to display calculation history
- */
 public class HistoryWindow extends JDialog {
     private CalculatorEngine engine;
     private JTextArea historyArea;
@@ -43,7 +38,6 @@ public class HistoryWindow extends JDialog {
     private void setupLayout() {
         setLayout(new BorderLayout());
         
-        // Title panel
         JPanel titlePanel = new JPanel();
         titlePanel.setBackground(new Color(70, 130, 180));
         JLabel titleLabel = new JLabel("Calculation History");
@@ -51,12 +45,10 @@ public class HistoryWindow extends JDialog {
         titleLabel.setForeground(Color.WHITE);
         titlePanel.add(titleLabel);
         
-        // Scroll pane for history
         JScrollPane scrollPane = new JScrollPane(historyArea);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         
-        // Button panel
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.add(clearHistoryButton);
         buttonPanel.add(closeButton);
