@@ -8,12 +8,7 @@ import javax.swing.JMenuItem;
 import javax.swing.UIManager;
 
 import calculators.scientificCalculator.ScientificCalculator;
-import calculators.baseCalculator.BaseCalculator;
-import calculators.dateCalculator.DateCalculator;
-import calculators.equationCalculator.EquationCalculator;
-import calculators.primeNumberHunter.PrimeNumberHunter;
 import calculators.simpleCalculator.SimpleCalculator;
-import calculators.unitConverter.UnitConverter;
 import help.history.History;
 import help.about.About;
 import help.developer.Profile;
@@ -110,18 +105,7 @@ public class UltimateCalculatorFrame{
   			new SimpleCalculator();
   		}else if(evt.getActionCommand()=="Scientific"){
   			new ScientificCalculator();
-  		}else if(evt.getActionCommand()=="Base"){
-  			new BaseCalculator();
-  		}else if(evt.getActionCommand()=="Equation"){
-  			new EquationCalculator();
-  		}else if(evt.getActionCommand()=="Unit Converter"){
-  			new UnitConverter();
-  		}else if(evt.getActionCommand()=="Date Calculator"){
-  			new DateCalculator();
-  		}else if(evt.getActionCommand()=="Prime Number"){
-  			new PrimeNumberHunter();
   		}
-  		
   		gui.dispose();
   	}
   	private void jMenuItemInstructionActionPerformed(ActionEvent evt){

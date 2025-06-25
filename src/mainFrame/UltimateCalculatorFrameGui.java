@@ -26,7 +26,7 @@ public class UltimateCalculatorFrameGui extends JFrame {
 
 	/***##Constructor##***/
 	public UltimateCalculatorFrameGui() {
-		modes=7;
+		modes=2;
 		
 		initialComponent();
 	}
@@ -56,16 +56,12 @@ public class UltimateCalculatorFrameGui extends JFrame {
 		//Menus
 		jMenuMode.setText("Mode  ");
 		jMenuHelp.setText("Help  ");
-		jMenuAccessories.setText("Accessories");
 		
 		//Menu Items
 		for(int i=0; i<modes; i++) {
 			jCBItemMode[i] = new JCheckBoxMenuItem();
 		}
 		jCBItemMode[0].setText("Simple"); jCBItemMode[1].setText("Scientific");
-			jCBItemMode[2].setText("Base"); jCBItemMode[3].setText("Equation");
-			jCBItemMode[4].setText("Unit Converter"); jCBItemMode[5].setText("Date Calculator");
-			jCBItemMode[6].setText("Prime Number");
 		
 		jMenuItemInstruction.setText("Instruction"); 
 		jMenuItemInstruction.setIcon(new ImageIcon(getClass().getResource("/res/imgs/InstructionIcon.png"))); 
@@ -88,15 +84,10 @@ public class UltimateCalculatorFrameGui extends JFrame {
 		jMenuBarMain.add(jMenuHelp);
 		
 		//adding menu items
-		for(int i=0; i<4; i++) {
+		for(int i=0; i<2; i++) {
 			jMenuMode.add(jCBItemMode[i]);	//adding modes
 		}
-		jMenuMode.add(separator);
-		jMenuMode.add(jMenuAccessories);
-		
-		for(int i=4; i<modes; i++) {
-			jMenuAccessories.add(jCBItemMode[i]);	//adding modes
-		}
+
 		jMenuHelp.add(jMenuItemInstruction); jMenuHelp.add(jMenuItemDeveloper);
 		jMenuHelp.add(jMenuItemAbout);
 		jMenuHelp.add(jMenuItemHistory);
